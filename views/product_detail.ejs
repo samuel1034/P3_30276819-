@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Detalles del Producto </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel='stylesheet' href='/stylesheets/product_detail.css'/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+  </head>
+  <body>
+    
+    <div class="card-wrapper">
+      <% if (product) { %>
+          <div class="card">
+              <!-- card left -->
+              <div class="product-imgs">
+                  <div class="img-display">
+                      <div class="img-showcase">
+                          <img src="/<%= product.image.slice(8) %>" alt="<%= product.nombre %>">
+                      </div>
+                  </div>
+              </div>
+              <!-- card right -->
+              <div class="product-content">
+                <h2 class="product-title"><%= product.nombre %></h2>
+                <p class="product-description"><%= product.descripcion %></p>
+                <p class="product-price"><%= product.precio %> $</p>
+                <% if (product.codigo) { %>
+                    <p class="product-code">Codigo: <%= product.codigo %></p>
+                <% } %>
+                <% if (product.categoria_id) { %>
+                    <p class="product-category-id">Categoria ID: <%= product.categoria_id %></p>
+                <% } %>
+                <% if (product.caracteristica1) { %>
+                    <p class="product-feature-1">Característica 1: <%= product.caracteristica1 %></p>
+                <% } %>
+                <% if (product.caracteristica2) { %>
+                    <p class="product-feature-2">Característica 2: <%= product.caracteristica2 %></p>
+                <% } %>
+            </div>
+          </div>
+      <% } else { %>
+          <p>No product found.</p>
+      <% } %>
+      <a href="/" class="back-button">Regresar a la pagina principal</a>
+  </div>
+  
+    
+    <script src="script.js"></script>
+  </body>
+</html>
