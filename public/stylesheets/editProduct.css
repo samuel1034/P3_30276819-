@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif:wght@500;700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,900&family=Roboto:ital,wght@0,100;0,500;0,700;0,900;1,400;1,500;1,700&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+section {
+    padding: 40px 15%;    
+}
+
+.contact {
+    background: #101010;
+    height: 100%;
+    width: 100%;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: repeat(2,2fr);
+    align-items: center;
+    grid-gap: 6rem;
+}
+
+.contact-img img {
+    max-width: 100%;
+    width: 720px;
+    height: auto;
+    border-radius: 20px;
+}
+
+.contact-form h1 {
+    font-size: 80px;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.contact-form p {
+    color: #c6c9d8bf;
+    letter-spacing: 1px;
+    line-height: 26px;
+    font-size: 1.1rem;
+    margin-bottom: 3.8rem; 
+}
+
+.contact-form form {
+    position: relative;    
+}
+
+.contact-form form input,
+form textarea {
+    width: 100%;
+    padding: 17px;
+    border: none;
+    outline: none;
+    background: #191919;
+    color: #fff;
+    font-size: 1.1rem;
+    margin-bottom: 0.7rem;
+    border-radius: 10px;    
+}
+
+.contact-form textarea {
+    resize: none;
+    height: 200px;
+}
+
+.contact-form form .btn {
+    display: inline-block;
+    background: #00b2f9;;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 600;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    width: 220px;
+    transition: ease .20s;
+    cursor: pointer;
+}
+
+.contact-form form .btn:hover {
+    border: 2px solid #00b2f9;;
+    background: transparent;
+    transform: scale(1.1);
+}
+
+@media (max-width: 1570px){
+    section {
+        padding: 80px 3%;
+        transition: .2s;
+    }
+    .contact-form h1 {
+        font-size: 60px;
+    }
+    .contact-form p {
+        margin-bottom: 3rem;
+    }
+}
+
+@media (max-width: 1090px) {
+    .contact {
+        grid-gap: 2rem;
+        transition: .3s;
+    }
+}
+
+@media (max-width: 1000px) {
+    .contact {
+        grid-template-columns: 1fr;        
+    }
+
+    .contact-form {
+        order: 2;
+    }
+
+    .contact-img img {
+        max-width: 100%;
+        width: 100%;
+        height: auto;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+}
+
+span {
+    color: #00b2f9;
+}
