@@ -4,7 +4,12 @@
     --secondary: #FDBE33;
     --light: #F4F6F8;
     --dark: #040F28;
+    
 }
+
+
+
+
 
 body {
     background: #fff;
@@ -448,7 +453,58 @@ button {
     margin: 4px 2px;
     cursor: pointer;
 }
+#cart-icon {
+    position: relative;
+    font-size: 1.8rem;
+    cursor: pointer;
+    top: 30px;   
 
+}
 
+#cart-icon [data-quantity = '0']::after {
+    contain: '';
+}
+#cart-icon[data-quantity]::after {
+    content: attr(data-quantity);
+    position: absolute;
+    top: 0;
+    right: -12px;
+    background: #ff4500;
+    color: #fff;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.cart-items p {    
+    font-size: 20px;
+    color: #000;
+}
+.cart-items img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 100%;
+    margin-right: 10px;
+    margin-bottom: 10px;    
+}
+.remove-button {    
+    background-color: #f00;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.remove-button:hover {
+    background-color: #c00;
+}
 
 

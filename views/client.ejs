@@ -31,6 +31,8 @@
 
     <!-- Template Stylesheet -->
     <link href="/css/style.css" rel="stylesheet">
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 
 <body>
@@ -101,11 +103,13 @@
                             <a href="/signup" class="dropdown-item"> Registrarse</a>
                             <a href="/signin" class="dropdown-item"> Iniciar sesión </a>                            
                         </div>
-                    </div>                
+                    </div>                                    
                     <a href="/login" class="nav-item nav-link bg-primary text-white px-5 ms-3 d-none d-lg-block"> Administrador <i class="bi bi-arrow-right"></i></a>
+                    
                 </div>
             </div>
         </nav>
+        
     </div>
     <!-- Navbar End -->
 
@@ -335,15 +339,17 @@
         <div class="links">
             <ul>
                 <li data-view="list-view" class="li-grid">
-                <i class="fas fa-th-list"></i>
-                Modo Lista </li>
+                    <i class="fas fa-th-list"></i>
+                    Modo Lista
+                </li>
                 <li data-view="grid-view" class="li-grid">
-                <i class="fas fa-th-large"></i>
-                Vista en cuadrícula</li>
+                    <i class="fas fa-th-large"></i>
+                    Vista en cuadrícula
+                </li>
             </ul>
         </div>
         <div class="view_main">
-            <div class="view_wrap list-view" style="display: block;">
+            <div class="view_wrap list-view">
                 <% products.forEach(function(product) { %>
                     <div class="view_item">
                         <div class="vi_left">
@@ -351,25 +357,21 @@
                         </div>
                         <div class="vi_right">
                             <p class="title"><%= product.nombre %></p>
-                            <p class="content"><%= product.precio %> $ </p> 
-                            <a href="/product_detail/<%= product.codigo %>" class="btn">Ver más</a>
-                            <button class="buy-button">
-                                <img width="94" height="94" src="https://img.icons8.com/3d-fluency/94/shopping-cart.png" alt="shopping-cart"/>
-                                Comprar Ahora
-                            </button>
+                            <p class="content"><%= product.precio %> $ </p>
+                            <a href="/product_detail/<%= product.codigo %>" class="btn">Ver más</a>                            
                         </div>
                     </div>
                 <% }); %>
             </div>
             <button data-view="grid-view" class="btn-grid btn btn-warning btn-lg">
-                <i class="fas fa-th-large"></i>
-                Vista en cuadrícula
+                <img width="64" height="64" src="https://img.icons8.com/glyph-neue/64/buy--v1.png" alt="buy--v1"/>
+                Comprar ahora!
             </button>
             <div class="view_wrap grid-view" style="display: none;">
                 <% products.forEach(function(product) { %>
                     <div class="view_item">
                         <div class="vi_left">
-                            <img src="/<%= product.image.slice(8) %>" alt="<%= product.name %>">
+                            <img src="/<%= product.image.slice(8) %>" class="product-image" alt="<%= product.name %>">
                         </div>
                         <div class="vi_right">
                             <p class="title"><%= product.nombre %></p>
@@ -385,6 +387,17 @@
                         <input type="hidden" value="<%= product.image %>" class="hiddenProductImage">
                     </div>
                 <% }); %>
+            </div>
+        </div>
+    </div>
+    <div class="shopping-list">
+        <h3>Lista de Compras </h3>       
+        <ul class="cart-items"></ul>
+        <button type="button" class="btn btn-primary btn-lg btn-block">
+            Pagar
+          </button>
+    </div>
+
                     
 
     <!-- Team Start -->

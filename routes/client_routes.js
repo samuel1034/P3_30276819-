@@ -145,4 +145,17 @@ router.get('/success_login', function(req, res) {
   res.render('success_login');
 });
 
+router.get('/checkout', function(req, res) {
+    res.render('checkout');
+});
+
+router.get('/payment', function(req, res) {
+    res.render('payment');
+});
+
+router.get('/shoppingCart', function(req, res) {
+    res.render('shopping-cart');
+});
+  
+
 module.exports = router;

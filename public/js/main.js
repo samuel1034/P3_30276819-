@@ -96,7 +96,51 @@ li_links.forEach(function(link){
 
 document.querySelector('.btn-grid').addEventListener('click', function() {
     document.querySelector('.list-view').style.display = 'none';
-    document.querySelector('.grid-view').style.display = 'block';
-    this.style.display = 'none'; // Add this line
+    document.querySelector('.grid-view').style.display = 'block';    
 });
+
+// Working Shopping List 
+const buyButtons = document.querySelectorAll('.buy-button');
+const shoppingList = document.querySelector('.shopping-list');
+const cartItems = shoppingList.querySelector('.cart-items');
+
+
+
+
+buyButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const product = button.parentElement.parentElement;
+        const productName = product.querySelector('.hiddenProductName').value;
+        const productDescription = product.querySelector('.hiddenProductDescription').value;
+        const productImage = product.querySelector('.product-image').getAttribute('src');
+
+        const cartItem = document.createElement('div');
+        cartItem.classList.add('cart-item');
+        cartItem.innerHTML = `
+            <img src="${productImage}" alt="${productName}">
+            <div>
+                <h4>${productName}</h4>
+                <p>${productDescription} $</p>
+            </div>
+            <button class="remove-button">Eliminar</button>
+        `;
+
+        cartItems.appendChild(cartItem);
+
+        const removeButtons = shoppingList.querySelectorAll('.remove-button');
+        removeButtons.forEach(removeButton => {
+            removeButton.addEventListener('click', () => {
+                removeButton.parentElement.remove();
+            });
+        });
+    });
+});
+
+const checkoutButton = document.querySelector('.btn-block');
+
+checkoutButton.addEventListener('click', () => {
+  window.location.href = '/checkout';
+});
+
+
 
