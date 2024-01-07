@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../models/db');
 const axios = require('axios');
+const requestIp = require('request-ip');
 
 router.get('/', function (req, res) {
     let nombre = req.query.nombre;
@@ -149,13 +150,107 @@ router.get('/checkout', function(req, res) {
     res.render('checkout');
 });
 
-router.get('/payment', function(req, res) {
-    res.render('payment');
+router.get('/payments', function(req, res) {
+  // Get total price from query parameters
+  let totalPrice = req.query.totalPrice;
+
+  // Render template with total price
+  res.render('payment', { totalPrice: totalPrice });
 });
+
+router.get('/purchases', (req, res) => {
+  db.all('SELECT * FROM compras', [], (err, rows) => {
+    if (err) {
+      throw err;
+    }
+    res.render('allPurchases', { purchases: rows });
+  });
+});
+
+router.post('/payments', function(req, res) {
+    const apiKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9obiBEb2UiLCJkYXRlIjoiMjAyNC0wMS0wM1QyMDoyODozOS4xMzJaIiwiaWF0IjoxNzA0MzEzNzE5fQ.pYfdwFMfOCAzZGQj9U8xW_mWiUy1NnjJ9cYlY2U9W6c';
+    const apiUrl = 'https://fakepayment.onrender.com/payments';
+    const nombre = req.body.nombre;    
+    const correo = req.body.correo;
+    const contraseña = req.body.contraseña;
+  
+    // Check if the user exists
+    const userQuery = `SELECT * FROM clientes WHERE nombre = ?`;
+    db.get(userQuery, [nombre], function(error, row) {
+      if (error) {
+        console.error('Error checking user:', error);
+        return res.status(500).send('<script>alert("Internal Server Error"); window.location.href = "/signin";</script>');
+      }
+  
+      if (!row) {
+        return res.send('<script>alert("Please sign in to make a purchase"); window.location.href = "/signin";</script>');
+      }
+  
+      const validateCreditCard = async (paymentData) => {
+        try {
+          const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${apiKey}`
+            },
+            body: JSON.stringify(paymentData)
+          });
+    
+          const result = await response.json();
+          return result;
+        } catch (error) {
+          console.error('Error validating credit card:', error);
+          throw error;
+        }
+      };
+    
+      const nombre = req.body.nombre;
+      const cardNumber = req.body.cardnumber;
+      const expirationMonth = req.body['expiry-month'];
+      const expirationYear = req.body['expiry-year'];
+      const cvv = req.body.cvv;
+    
+      const paymentData = {
+        amount: 99.99,
+        'card-number': cardNumber,
+        cvv: cvv,
+        'expiration-month': expirationMonth,
+        'expiration-year': expirationYear,
+        'full-name': nombre,
+        currency: 'USD',
+        description: 'Payment for product',
+        reference: '123456789'
+      };
+    
+      validateCreditCard(paymentData)
+        .then((result) => {
+          if (result.errors && result.errors.length > 0) {
+            const errorMsg = result.errors.map(error => `${error.path}: ${error.msg}`).join(', ');
+            return res.send('<script>alert("Error: ' + errorMsg + '"); window.location.href = "/signin";</script>');
+          } else {
+            return res.send('<script>alert("Thanks for your purchase"); window.location.href = "/";</script>');
+          }
+        })
+        .catch((error) => {
+          console.error('Error validating credit card:', error);
+          return res.status(500).send('<script>alert("Internal Server Error"); window.location.href = "/signin";</script>');
+        });
+    });
+  });
 
 router.get('/shoppingCart', function(req, res) {
-    res.render('shopping-cart');
+  db.all('SELECT * FROM productos', [], (err, rows) => {
+    if (err) {
+      throw err;
+    }
+    res.render('shopping-cart', { products: rows });
+  });
 });
-  
+
+
+
 
 module.exports = router;
+
+

@@ -239,6 +239,8 @@ Number.prototype.format = function () {
 
 const button = document.querySelector('.checkout');
 button.addEventListener('click', () => {
+  const total = calculateTotal();
+  document.getElementById('total').textContent = total.format();
   window.location.href = '/payment';
 });
 

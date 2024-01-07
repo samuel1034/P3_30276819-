@@ -163,6 +163,25 @@ router.delete('/delete_product/', (req, res) => {
   });
  });
 
+ router.get('/all-clients', function(req, res, next) {
+  db.all('SELECT * FROM clientes', function(err, rows) {
+    if (err) {
+      return console.error(err.message);
+    }
+    res.render('all_clients', { clients: rows });
+  });
+});
+
+router.get('/all-purchases', function(req, res, next) {
+  db.all('SELECT * FROM compras', function(err, rows) {
+    if (err) {
+      return console.error(err.message);
+    }
+    res.render('all_purchases', { purchases: rows });
+  });
+});
+
+
 module.exports = router;
 
 

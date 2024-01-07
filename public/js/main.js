@@ -139,8 +139,45 @@ buyButtons.forEach(button => {
 const checkoutButton = document.querySelector('.btn-block');
 
 checkoutButton.addEventListener('click', () => {
-  window.location.href = '/checkout';
+    // Redirect to payment.ejs with the total price as a query parameter
+    window.location.href = '/payments?totalPrice=' + totalPrice;
+  });
+
+// Initialize total price
+let totalPrice = 0;
+
+// Get total price element
+const totalPriceElement = document.querySelector('.total-price');
+
+buyButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const product = button.parentElement.parentElement;
+        const productName = product.querySelector('.hiddenProductName').value;
+        const productDescription = parseFloat(product.querySelector('.hiddenProductDescription').value);
+        const productImage = product.querySelector('.product-image').getAttribute('src');
+
+        // Add product price to total price
+        totalPrice += productDescription;
+
+        // Update total price element
+        totalPriceElement.textContent = 'Total: $' + totalPrice.toFixed(2);
+
+ 
+
+        cartItems.appendChild(cartItem);
+
+        const removeButtons = shoppingList.querySelectorAll('.remove-button');
+        removeButtons.forEach(removeButton => {
+            removeButton.addEventListener('click', () => {
+                // Subtract product price from total price
+                totalPrice -= productDescription;
+
+                // Update total price element
+                totalPriceElement.textContent = 'Total: $' + totalPrice.toFixed(2);
+
+                removeButton.parentElement.remove();
+            });
+        });
+    });
 });
-
-
 

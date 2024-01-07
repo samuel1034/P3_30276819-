@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Todos los Clientes </title>  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel='stylesheet' href='/stylesheets/allClients.css'/>
+  <link rel="shortcut icon" href="https://img.icons8.com/external-kiranshastry-lineal-color-kiranshastry/64/external-user-advertising-kiranshastry-lineal-color-kiranshastry-4.png" type="image/x-icon">
+</head>
+<body>    
+    <div class="container">
+        <h1 class="my-4 text-center text-white">Todos los Clientes <img src="https://static8.depositphotos.com/1468291/934/i/450/depositphotos_9346925-stock-photo-portrait-of-office-worker-at.jpg" alt="" srcset=""> </h1>        
+        <table class="table table-dark table-striped table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Nombre</th>
+              <th scope="col">Correo Electrónico</th>
+              <!-- Add more columns as needed -->
+            </tr>
+          </thead>
+          <tbody>
+            <% clients.forEach(function(client) { %>
+              <tr>
+                <td><%= client.nombre %></td>
+                <td><%= client.email %></td>                
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>
+

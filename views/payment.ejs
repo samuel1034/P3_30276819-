@@ -8,16 +8,15 @@
     <title> Pagar </title>
 </head>
 <body>
-    <div class="container">
+    <form action="/payments" method="POST">
+        <div class="container">
         <div class="price">
-            <h1>Genial, Son $99.99 !</h1>
+            <h1>Genial, Son $<%= totalPrice %> !</h1>
         </div>
         <div class="card__container">
             <div class="card">
                 <div class="row paypal">
-                    <div class="left">
-                        <input id="pp" type="radio" name="payment" />
-                        <div class="radio"></div>
+                    <div class="left">                                              
                         <label for="pp">Tarjeta de Credito Gold </label>
                     </div>
                     <div class="right">
@@ -25,9 +24,7 @@
                     </div>
                 </div>
                 <div class="row credit">
-                    <div class="left">
-                        <input id="cd" type="radio" name="payment" />
-                        <div class="radio"></div>
+                    <div class="left">                    
                         <label for="cd">Tarjeta de Credito</label>
                     </div>
                     <div class="right">
@@ -37,22 +34,23 @@
                         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Maestro_logo.png/640px-Maestro_logo.png" alt="maestro" />
                     </div>
                 </div>
+                
                 <div class="row cardholder">
                     <div class="info">
                         <label for="cardholdername">Nombre</label>
-                        <input placeholder="e.g. Richard Bovell" id="cardholdername" type="text" />
+                        <input placeholder="e.g. Richard Bovell" id="nombre" type="text" name="nombre" />
                     </div>
                 </div>
                 <div class="row number">
                     <div class="info">
                         <label for="cardnumber">Número de tarjeta</label>
-                        <input id="cardnumber" type="text" pattern="[0-9]{16,19}" maxlength="19" placeholder="8888-8888-8888-8888"/>
+                        <input id="cardnumber" type="text" pattern="[0-9]{16,19}" maxlength="19" placeholder="8888-8888-8888-8888" name="cardnumber" />
                     </div>
                 </div>
                 <div class="row details">
                     <div class="left">
                         <label for="expiry-date">Expiración</label>
-                        <select id="expiry-date">
+                        <select id="expiry-date" name="expiry-month">
                             <option>MM</option>
                             <option value="1">01</option>
                             <option value="2">02</option>
@@ -67,7 +65,7 @@
                             <option value="12">12</option>
                         </select>
                         <span>/</span>
-                         <select id="expiry-date">
+                        <select id="expiry-date" name="expiry-year">
                             <option>YYYY</option>
                             <option value="2016">2016</option>
                             <option value="2017">2017</option>
@@ -88,7 +86,7 @@
                     </div>
                     <div class="right">
                         <label for="cvv">CVC/CVV</label>
-                        <input type="text" maxlength="4" placeholder="123"/>
+                        <input type="text" maxlength="4" placeholder="123" name="cvv" />
                         <span data-balloon-length="medium" data-balloon="The 3 or 4-digit number on the back of your card." data-balloon-pos="up">i</span>
                     </div>
                 </div>
@@ -97,6 +95,7 @@
         <div class="button">
             <button type="submit"><i class="ion-locked"></i> Confirmar y realizar el pago</button>
         </div>
-    </div>
+        </div>
+    </form>
 </body>
 </html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>All Purchases</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/9.6.1/css/fabric.min.css">
+  <link rel='stylesheet' href='/stylesheets/allPurchases.css'/>
+  <link rel="shortcut icon" href="https://img.icons8.com/?size=100&id=Q1oDUhWrbOIT&format=png&color=f40000" type="image/x-icon">
+</head>
+<body class="ms-Fabric" dir="ltr">
+  <div class="container">
+    <h1 class="mt-4 mb-4 text-light">Todas las Compras <img width="64" height="64" src="https://img.icons8.com/external-nawicon-mixed-nawicon/64/f40000/external-Buy-ecommerce-nawicon-mixed-nawicon.png" alt="external-Buy-ecommerce-nawicon-mixed-nawicon"/></h1>
+    <table class="table table-dark table-striped">
+      <thead>
+        <tr>
+          <th class="text-light"> ID del Cliente</th>
+          <th class="text-light">ID del Producto</th>
+          <th class="text-light">Cantidad</th>
+          <th class="text-light">Total Pagado</th>
+          <th class="text-light">Fecha</th>
+          <th class="text-light">IP del Cliente</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% purchases.forEach(function(purchase) { %>
+          <tr>
+            <td><%= purchase.cliente_id %></td>
+            <td><%= purchase.producto_id %></td>
+            <td><%= purchase.cantidad %></td>
+            <td><%= purchase.total_pagado %></td>
+            <td><%= purchase.fecha %></td>
+            <td><%= purchase.ip_cliente %></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

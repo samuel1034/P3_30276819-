@@ -4,12 +4,16 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var loginRouter = require('./routes/login');
+const session = require('express-session');
+const flash = require('express-flash');
+
 
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const clientRouter = require('./routes/client_routes');
-const db = require('./models/db');
+const db = require('./models/db')
+
  
 var app = express();
 
@@ -51,5 +55,12 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+app.use(session({
+  secret: 'Samuel',
+  resave: false,
+  saveUninitialized: false,
+}));
+app.use(flash());
 
 module.exports = app;
