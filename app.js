@@ -61,6 +61,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
 }));
+
 app.use(flash());
 
 module.exports = app;

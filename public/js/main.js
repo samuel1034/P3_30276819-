@@ -103,9 +103,10 @@ document.querySelector('.btn-grid').addEventListener('click', function() {
 const buyButtons = document.querySelectorAll('.buy-button');
 const shoppingList = document.querySelector('.shopping-list');
 const cartItems = shoppingList.querySelector('.cart-items');
+const quantityDisplay = document.querySelector('.cantidad');
 
 
-
+let productCount = 0;
 
 buyButtons.forEach(button => {
     button.addEventListener('click', () => {
@@ -126,6 +127,10 @@ buyButtons.forEach(button => {
         `;
 
         cartItems.appendChild(cartItem);
+
+        productCount++;
+
+        quantityDisplay.textContent = 'Cantidad: ' + productCount;
 
         const removeButtons = shoppingList.querySelectorAll('.remove-button');
         removeButtons.forEach(removeButton => {
@@ -181,3 +186,18 @@ buyButtons.forEach(button => {
     });
 });
 
+fetch('/payments', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+        totalPrice: document.querySelector('.total-price').textContent.split(': ')[1],
+        cantidad: document.getElementById('cantidad').textContent.split(': ')[1],       
+    }),
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch((error) => {
+  console.error('Error:', error);
+});
