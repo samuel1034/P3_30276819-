@@ -14,6 +14,7 @@
             <tr>
               <th scope="col">Nombre</th>
               <th scope="col">Correo Electrónico</th>
+              <th scope="col"> Contraseña</th>
               <!-- Add more columns as needed -->
             </tr>
           </thead>
@@ -21,7 +22,9 @@
             <% clients.forEach(function(client) { %>
               <tr>
                 <td><%= client.nombre %></td>
-                <td><%= client.email %></td>                
+                <td><%= client.email %></td>
+                <td><%= client.contraseña %></td>    
+                         
               </tr>
             <% }); %>
           </tbody>
