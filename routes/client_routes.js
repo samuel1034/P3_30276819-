@@ -152,11 +152,12 @@ router.get('/checkout', function(req, res) {
 });
 
 router.get('/payments', function(req, res) {
-  // Get total price from query parameters
+  // Get total price and productCount from query parameters
   let totalPrice = req.query.totalPrice;
+  let productCount = req.query.productCount;
 
-  // Render template with total price
-  res.render('payment', { totalPrice: totalPrice });
+  // Render template with total price and productCount
+  res.render('payment', { totalPrice: totalPrice, productCount: productCount });
 });
 
 router.get('/purchases', (req, res) => {
@@ -174,6 +175,7 @@ router.post('/payments', function(req, res) {
     const nombre = req.body.nombre;    
     const correo = req.body.correo;
     const contraseña = req.body.contraseña;
+    
   
     // Check if the user exists
     const userQuery = `SELECT * FROM clientes WHERE nombre = ?`;
@@ -186,7 +188,9 @@ router.post('/payments', function(req, res) {
       if (!row) {
         return res.send('<script>alert("Please sign in to make a purchase"); window.location.href = "/signin";</script>');
       }
-  
+
+      
+      
       const validateCreditCard = async (paymentData) => {
         try {
           const response = await fetch(apiUrl, {
@@ -223,25 +227,23 @@ router.post('/payments', function(req, res) {
         description: 'Payment for product',
         reference: '123456789'
       };
-    
-      validateCreditCard(paymentData)
-      .then((result) => {
-        if (result.errors && result.errors.length > 0) {
-          const errorMsg = result.errors.map(error => `${error.path}: ${error.msg}`).join(', ');
-          return res.send('<script>alert("Error: ' + errorMsg + '"); window.location.href = "/signin";</script>');
-        } else {
-          // Save payment details
-          const paymentDetails = {
-            cliente_id: crypto.randomBytes(16).toString('hex'), 
-            producto_id: req.body.producto_id, 
-            cantidad: req.body.cantidad, 
-            total_pagado: req.query.totalPrice,
-            fecha: new Date().toISOString().split('T')[0],
-            ip_cliente: req.ip
-          };
-
-          console.log('req.body:', req.body);
-
+             
+        validateCreditCard(paymentData)
+        .then((result) => {
+          if (result.errors && result.errors.length > 0) {
+            const errorMsg = result.errors.map(error => `${error.path}: ${error.msg}`).join(', ');
+            return res.send('<script>alert("Error: ' + errorMsg + '"); window.location.href = "/signin";</script>');
+          } else {
+            // Save payment details
+            const paymentDetails = {
+              cliente_id: crypto.randomBytes(16).toString('hex'), 
+              producto_id: producto_id, 
+              cantidad: req.body.productCount, 
+              total_pagado: req.body.totalPrice,
+              fecha: new Date().toISOString().split('T')[0],
+              ip_cliente: req.ip
+            };
+           
           // Log paymentDetails to the console
           console.log(paymentDetails);
   

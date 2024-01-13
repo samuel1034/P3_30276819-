@@ -10,9 +10,11 @@
 <body>
     <form action="/payments" method="POST">
         <div class="container">
-        <div class="price">
-            <h1>Genial, Son $<%= totalPrice %> !</h1>
-        </div>
+            <div class="price">
+                <h1>Genial, Son $<%= totalPrice %> !</h1>                
+                <input type="hidden" name="totalPrice" value="<%= totalPrice %>">
+                <input type="hidden" name="productCount" value="<%= productCount %>">
+            </div>
         <div class="card__container">
             <div class="card">
                 <div class="row paypal">

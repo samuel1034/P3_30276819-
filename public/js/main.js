@@ -145,7 +145,7 @@ const checkoutButton = document.querySelector('.btn-block');
 
 checkoutButton.addEventListener('click', () => {
     // Redirect to payment.ejs with the total price as a query parameter
-    window.location.href = '/payments?totalPrice=' + totalPrice;
+    window.location.href = `/payments?totalPrice=${totalPrice}&productCount=${productCount}`;
   });
 
 // Initialize total price
@@ -194,7 +194,7 @@ fetch('/payments', {
     body: JSON.stringify({
         totalPrice: document.querySelector('.total-price').textContent.split(': ')[1],
         cantidad: document.getElementById('cantidad').textContent.split(': ')[1],       
-    }),
+    }),    
 })
 .then(response => response.json())
 .then(data => console.log(data))
