@@ -151,13 +151,30 @@ router.get('/checkout', function(req, res) {
     res.render('checkout');
 });
 
+
+let producto_id = 'default';
+
 router.get('/payments', function(req, res) {
   // Get total price and productCount from query parameters
   let totalPrice = req.query.totalPrice;
   let productCount = req.query.productCount;
 
-  // Render template with total price and productCount
-  res.render('payment', { totalPrice: totalPrice, productCount: productCount });
+  db.all('SELECT codigo FROM productos', [], (err, rows) => {
+    if (err) {
+      throw err;
+    }
+
+    // Log all codigo values
+    rows.forEach((row, index) => {
+      console.log(row.codigo);
+      if (index === 0) {
+        producto_id = row.codigo;
+      }
+    });
+
+    // Render template with total price, productCount, and products
+    res.render('payment', { totalPrice: totalPrice, productCount: productCount, productos: rows });
+  });
 });
 
 router.get('/purchases', (req, res) => {
@@ -227,46 +244,60 @@ router.post('/payments', function(req, res) {
         description: 'Payment for product',
         reference: '123456789'
       };
-             
-        validateCreditCard(paymentData)
-        .then((result) => {
-          if (result.errors && result.errors.length > 0) {
-            const errorMsg = result.errors.map(error => `${error.path}: ${error.msg}`).join(', ');
-            return res.send('<script>alert("Error: ' + errorMsg + '"); window.location.href = "/signin";</script>');
-          } else {
-            // Save payment details
-            const paymentDetails = {
-              cliente_id: crypto.randomBytes(16).toString('hex'), 
-              producto_id: producto_id, 
-              cantidad: req.body.productCount, 
-              total_pagado: req.body.totalPrice,
-              fecha: new Date().toISOString().split('T')[0],
-              ip_cliente: req.ip
-            };
-           
-          // Log paymentDetails to the console
-          console.log(paymentDetails);
-  
-          // Save paymentDetails to the database
-          const insertQuery = `INSERT INTO compras (cliente_id, producto_id, cantidad, total_pagado, fecha, ip_cliente) VALUES (?, ?, ?, ?, ?, ?)`;
-          db.run(insertQuery, [paymentDetails.cliente_id, paymentDetails.producto_id, paymentDetails.cantidad, paymentDetails.total_pagado, paymentDetails.fecha, paymentDetails.ip_cliente], function(error) {
-            if (error) {
-              console.error('Error saving payment details:', error);
-              return res.status(500).send('<script>alert("Internal Server Error"); window.location.href = "/signin";</script>');
-            }
-  
-            // Render the 'payment' view with the total price
-            return res.send('<script>alert("Thanks for your purchase"); window.location.href = "/";</script>');
-            
-          });
+      db.all('SELECT codigo FROM productos', [], (err, rows) => {
+        if (err) {
+          throw err;
         }
-      })
-      .catch((error) => {
-        console.error('Error validating credit card:', error);
-        return res.status(500).send('<script>alert("Internal Server Error"); window.location.href = "/signin";</script>');
-      });
-  });
-});
+      
+        let producto_id;
+        rows.forEach((row, index) => {
+          // Use the first codigo as producto_id
+          if (index === 0) {
+            producto_id = row.codigo;
+          }
+        });
+      
+        // Only validate the credit card once, after getting the first producto_id
+        validateCreditCard(paymentData)
+          .then((result) => {
+            if (result.errors && result.errors.length > 0) {
+              const errorMsg = result.errors.map(error => `${error.path}: ${error.msg}`).join(', ');
+              return res.send('<script>alert("Error: ' + errorMsg + '"); window.location.href = "/signin";</script>');
+            } else {
+              // Save payment details
+              const paymentDetails = {
+                cliente_id: crypto.randomBytes(16).toString('hex'), 
+                producto_id: producto_id, 
+                cantidad: req.body.productCount, 
+                total_pagado: req.body.totalPrice,
+                fecha: new Date().toISOString().split('T')[0],
+                ip_cliente: req.ip
+              };
+      
+              // Log paymentDetails to the console
+              console.log(paymentDetails);
+      
+              // Save paymentDetails to the database
+              const insertQuery = `INSERT INTO compras (cliente_id, producto_id, cantidad, total_pagado, fecha, ip_cliente) VALUES (?, ?, ?, ?, ?, ?)`;
+              db.run(insertQuery, [paymentDetails.cliente_id, paymentDetails.producto_id, paymentDetails.cantidad, paymentDetails.total_pagado, paymentDetails.fecha, paymentDetails.ip_cliente], function(error) {
+                if (error) {
+                  console.error('Error saving payment details:', error);
+                  return res.status(500).send('<script>alert("Internal Server Error"); window.location.href = "/signin";</script>');
+                }
+      
+                // Render the 'payment' view with the total price
+                return res.send('<script>alert("Thanks for your purchase"); window.location.href = "/";</script>');
+              });
+            }
+          })
+          .catch((error) => {
+            console.error('Error validating credit card:', error);
+            return res.status(500).send('<script>alert("Internal Server Error"); window.location.href = "/signin";</script>');
+          });
+      });      
+    });
+    
+    
 
 router.get('/shoppingCart', function(req, res) {
   db.all('SELECT * FROM productos', [], (err, rows) => {
@@ -276,9 +307,7 @@ router.get('/shoppingCart', function(req, res) {
     res.render('shopping-cart', { products: rows });
   });
 });
-
-
-
+})
 
 module.exports = router;
 
