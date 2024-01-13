@@ -286,7 +286,7 @@ router.post('/payments', function(req, res) {
                 }
       
                 // Render the 'payment' view with the total price
-                return res.send('<script>alert("Thanks for your purchase"); window.location.href = "/";</script>');
+                return res.send('<script>alert("Gracias por su compra"); window.location.href = "/";</script>');
               });
             }
           })
