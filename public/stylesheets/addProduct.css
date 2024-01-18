@@ -36,7 +36,7 @@ section {
 }
 
 .contact-form p {
-    color: #c6c9d8bf;
+    color: #fff;
     letter-spacing: 1px;
     line-height: 26px;
     font-size: 1.1rem;
@@ -58,6 +58,11 @@ form textarea {
     font-size: 1.1rem;
     margin-bottom: 0.7rem;
     border-radius: 10px;    
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: white;
 }
 
 .contact-form textarea {
@@ -125,4 +130,8 @@ form textarea {
 
 span {
     color: #f9004d;
+}
+label {
+    color: #fff;
+    font-size: 20px;
 }
