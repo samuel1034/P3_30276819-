@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Características</title>
+    <link rel='stylesheet' href='/stylesheets/listFeatures.css'/>
+</head>
+<body>
+    <div class="centered-box">
+        <h1>Características</h1>
+        <ol>
+            <% features.forEach(function(feature) { %>
+                <li><%= feature.nombre %></li>
+            <% }); %>
+        </ol>
+    </div>
+</body>
+</html>

@@ -52,6 +52,24 @@ router.get('/add_product', (req, res) => {
  res.render('add_product');
 });
 
+router.get('/add_feature', (req, res) => {
+  res.render('add_feature');
+ });
+
+ router.get('/edit_feature', (req, res) => {
+  res.render('edit_feature');
+ });
+ 
+ router.get('/list-features', (req, res) => {
+  let sql = `SELECT * FROM categorias`;
+  db.all(sql, [], (err, rows) => {
+      if (err) {
+          throw err;
+      }
+      res.render('list_features', { features: rows });
+  });
+});
+
 router.get('/edit_product', (req, res) => {
   res.render('edit_product');
  });
@@ -59,6 +77,25 @@ router.get('/edit_product', (req, res) => {
  router.get('/product_list', (req, res) => {
   res.render('product_list');
  });
+ 
+ router.post('/add-feature', (req, res) => {
+  const featureName = req.body.featureName;
+
+  // Add the feature to the database
+  let sql = `INSERT INTO categorias(nombre) VALUES(?)`;
+  db.run(sql, featureName, function(err) {
+      if (err) {
+          if (err.code === 'SQLITE_CONSTRAINT') {
+              console.error(`A feature with the name ${featureName} already exists.`);
+          } else {
+              console.error(err.message);
+          }
+          return;
+      }
+      console.log(`A row has been inserted with rowid ${this.lastID}`);
+      res.redirect('/login');
+  });
+});
  
 
  

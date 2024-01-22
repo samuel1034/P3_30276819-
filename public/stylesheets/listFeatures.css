@@ -1,0 +1,36 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #333;
+    padding-top: 20px; /* Add some padding at the top for better appearance */
+}
+
+.centered-content {
+    text-align: center;
+}
+
+.centered-content ol {
+    list-style-type: decimal;
+    padding-left: 0;
+}
+
+h1 {
+    text-align: center;
+    color: #fff;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    /* background-color: #f1f1f1; */ /* Commented out to remove the white box */
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+    color: #fff;
+}
