@@ -18,6 +18,10 @@ router.get('/', (req, res) => {
  res.redirect('login');
 });
 
+router.get('/home', (req, res) => {
+  res.render('home');
+ });
+
 router.get('/category_list', (req, res) => {
  db.all('SELECT * FROM categorias', [], (err, rows) => {
     if (err) {
@@ -56,10 +60,16 @@ router.get('/add_feature', (req, res) => {
   res.render('add_feature');
  });
 
- router.get('/edit_feature', (req, res) => {
+ router.get('/edit-feature', (req, res) => {
   res.render('edit_feature');
  });
- 
+
+
+ router.get('/edit-feature/:id', (req, res) => {
+  const id = req.params.id;  
+  res.render('edit_feature', { feature: { id: id } });
+});
+
  router.get('/list-features', (req, res) => {
   let sql = `SELECT * FROM categorias`;
   db.all(sql, [], (err, rows) => {
@@ -79,24 +89,45 @@ router.get('/edit_product', (req, res) => {
  });
  
  router.post('/add-feature', (req, res) => {
+  const idFeature = req.body.idFeature;
   const featureName = req.body.featureName;
 
   // Add the feature to the database
-  let sql = `INSERT INTO categorias(nombre) VALUES(?)`;
-  db.run(sql, featureName, function(err) {
+  let sql = `INSERT INTO categorias(id, nombre) VALUES(?, ?)`;
+  db.run(sql, [idFeature, featureName], function(err) {
       if (err) {
           if (err.code === 'SQLITE_CONSTRAINT') {
-              console.error(`A feature with the name ${featureName} already exists.`);
+              console.error(`A feature with the id ${idFeature} or the name ${featureName} already exists.`);
           } else {
               console.error(err.message);
           }
           return;
       }
       console.log(`A row has been inserted with rowid ${this.lastID}`);
-      res.redirect('/login');
+      res.redirect('list-features');
   });
 });
- 
+
+router.post('/edit-feature/:id', (req, res) => {
+  const id = req.params.id;
+  const newIdFeature = req.body.idFeature;
+  const newFeatureName = req.body.featureName;
+
+  // Update the feature in the database
+  let sql = `UPDATE categorias SET id = ?, nombre = ? WHERE id = ?`;
+  db.run(sql, [newIdFeature, newFeatureName, id], function(err) {
+      if (err) {
+          if (err.code === 'SQLITE_CONSTRAINT') {
+              console.error(`A feature with the id ${newIdFeature} or the name ${newFeatureName} already exists.`);
+          } else {
+              console.error(err.message);
+          }
+          return;
+      }
+      console.log(`Row(s) updated: ${this.changes}`);
+      res.redirect('/list-features');;
+  });
+});
 
  
  router.post('/edit_product', upload.single('productImage'), (req, res) => {

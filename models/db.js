@@ -8,7 +8,7 @@ let db = new sqlite3.Database(':memory:', (err) => {
 });
 
 db.serialize(() => {
- db.run('CREATE TABLE categorias (nombre TEXT)');
+ db.run('CREATE TABLE categorias (id INTEGER, nombre TEXT)');
  db.run('CREATE TABLE productos (nombre TEXT, codigo TEXT, precio REAL, descripcion TEXT, categoria_id INTEGER, caracteristica1 TEXT, caracteristica2 TEXT, image TEXT, FOREIGN KEY (categoria_id) REFERENCES categorias (nombre))');
  db.run('CREATE TABLE imagenes (producto_id INTEGER, url TEXT, destacado INTEGER, FOREIGN KEY (producto_id) REFERENCES productos (codigo))');
 });

@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
 body {
     display: flex;
     flex-direction: column;
@@ -5,8 +6,9 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    background-color: #333;
+    background-color: #000;
     padding-top: 20px; /* Add some padding at the top for better appearance */
+    font-family: 'Roboto', sans-serif;
 }
 
 .centered-content {

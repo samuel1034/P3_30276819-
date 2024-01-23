@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
+
 body {
     background-color: #1a202c; /* dark blue */
     color: #edf2f7; /* off-white */
@@ -6,6 +8,7 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
+    font-family: 'Roboto', sans-serif;
 }
 .feature-add-section {
     background-color: #004680;
