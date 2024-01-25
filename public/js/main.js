@@ -201,3 +201,23 @@ fetch('/payments', {
 .catch((error) => {
   console.error('Error:', error);
 });
+
+$(function () {
+    $("#rateYo").rateYo({
+      rating: 3.6,
+      numStars: 5,
+      precision: 2,
+      minValue: 1,
+      maxValue: 5,
+      onSet: function (rating, rateYoInstance) {
+        $(this).next().text('Rating: ' + rating);
+      },
+      onHover: function (rating, rateYoInstance) {
+        if (rating) {
+          $(this).next().text('Hover rating: ' + rating);
+        } else {
+          $(this).next().text('Rating: ' + this.getAttribute('data-rateyo-rating'));
+        }
+      }
+    });
+  });

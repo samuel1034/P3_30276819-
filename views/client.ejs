@@ -33,6 +33,9 @@
     <link href="/css/style.css" rel="stylesheet">
 
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+        
+    <!-- RateYo Stylesheet -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
 </head>
 
 <body>
@@ -357,8 +360,8 @@
                         </div>
                         <div class="vi_right">
                             <p class="title"><%= product.nombre %></p>
-                            <p class="content"><%= product.precio %> $ </p>
-                            <a href="/product_detail/<%= product.codigo %>" class="btn">Ver más</a>                            
+                            <p class="content"><%= product.precio %> $ </p>                            
+                            <a href="/product_detail/<%= product.codigo %>" class="btn">Ver más</a>
                         </div>
                     </div>
                 <% }); %>
@@ -376,6 +379,8 @@
                         <div class="vi_right">
                             <p class="title"><%= product.nombre %></p>
                             <p class="content"><%= product.precio %> $ </p>
+                            <div id="rateYo"></div>
+                            <span class="text-dark">Rating: 0</span>
                             <a href="/product_detail/<%= product.codigo %>" class="btn">Ver más</a>
                             <button class="buy-button">
                                 <img width="94" height="94" src="https://img.icons8.com/3d-fluency/94/shopping-cart.png" alt="shopping-cart"/>
@@ -673,6 +678,7 @@
     <script src="/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
     <script src="/lib/isotope/isotope.pkgd.min.js"></script>
     <script src="/lib/lightbox/js/lightbox.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
 
     <!-- Template Javascript -->
     <script src="/js/main.js"></script>
