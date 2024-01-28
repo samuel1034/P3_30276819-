@@ -8,6 +8,12 @@
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
  </head>
  <body>
+  <% if (typeof message !== 'undefined') { %>
+    <script>
+      alert('<%= message %>');
+      window.location.href = '<%= redirectUrl %>';
+    </script>
+  <% } %>
     <section>
       <div class="imgBx">
         <img src="https://img.freepik.com/foto-gratis/hombre-equipo-seguridad-su-lugar-trabajo_23-2148976365.jpg?w=740&t=st=1702477063~exp=1702477663~hmac=e23e854c6a9987cfe73474f115fabd3124ca4b9f05223ef0c1e55de7ac700cc0" alt="">

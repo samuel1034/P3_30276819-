@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
+body {
+    background-color: #1a202c; /* dark blue */
+    color: #edf2f7; /* off-white */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+.feature-add-section {
+    background-color: #000;
+    max-width: 600px;
+    padding: 20px;
+    border: 1px solid #2d3748; /* slightly lighter blue */
+    border-radius: 10px;
+}
+.feature-add-section input {
+    background-color: #2d3748; /* slightly lighter blue */
+    border: none;
+    color: #fff; /* off-white */
+    margin-top: 20px; /* add space above the input */
+}
+.feature-add-section input::placeholder {
+    color: #fff; /* gray-blue */
+}
+.feature-add-section button {
+    background-color: #38b2ac; /* teal */
+    color: #fff; /* off-white */
+    border: none;
+}
+.feature-add-section button:hover {
+    background-color:#1c0080; /* darker teal */
+}
+.feature-add-section input:focus {
+    background-color: #1a202c; /* dark blue */
+    color: #fff; /* off-white */
+}
+
+.btn.btn-square {
+    width: 40px;
+    height: 40px;
+    margin-top: 20px;
+    margin-left: 15px;
+    background-color: #002980; /* teal */
+    color: #fff; 
+}

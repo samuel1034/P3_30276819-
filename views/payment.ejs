@@ -8,6 +8,11 @@
     <title> Pagar </title>
 </head>
 <body>
+    <% if (typeof message !== 'undefined') { %>
+        <script>
+            alert('<%= message %>');
+        </script>
+    <% } %>
     <form action="/payments" method="POST">
         <div class="container">
             <div class="price">

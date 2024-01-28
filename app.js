@@ -10,6 +10,8 @@ const bodyParser = require('body-parser');
 
 
 
+
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const clientRouter = require('./routes/client_routes');
@@ -58,12 +60,13 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.use(session({
-  secret: 'Samuel',
-  resave: false,
-  saveUninitialized: false,
-}));
 
-app.use(flash());
+
+app.use(session({
+  secret: 'XConstruction',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // set to true if you're using https
+}));
 
 module.exports = app;

@@ -4,6 +4,17 @@ const db = require('../models/db');
 const axios = require('axios');
 const requestIp = require('request-ip');
 const crypto = require('crypto');
+const nodemailer = require ('nodemailer');
+const session = require('express-session');
+const bcrypt = require('bcrypt');
+
+// Set up session middleware
+router.use(session({
+  secret: 'your secret key', // replace with your actual secret key
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // set to true if you're using https
+}));
 
 router.get('/', function (req, res) {
     let nombre = req.query.nombre;
@@ -36,8 +47,7 @@ router.get('/product_detail/:codigo', function(req, res){
         } else {
             if (product) {                
                 res.render('product_detail', { product: product });
-            } else {
-                console.log('No product found with the provided codigo');
+            } else {                
                 res.send('No product found with the provided codigo');
             }
         }
@@ -57,19 +67,21 @@ router.get('/service_client', function(req, res){
 });
 
 router.get('/signup', (req, res) => {    
-    res.render('sing_up_user');
+    res.render('sign_up_user');
 });
 
 router.post('/signup', async (req, res) => {
   const nombre = req.body.nombre;
   const correo = req.body.correo;
   const contraseña = req.body.contraseña;
-  
 
   try {
-      // Check if the user already exists
-      const userQuery = `SELECT EXISTS(SELECT 1 FROM clientes WHERE email = ? AND contraseña =  ?) AS userExists`;
-    db.get(userQuery, [correo, contraseña], function(error, row) {
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(contraseña, 10);
+
+    // Check if the user already exists
+    const userQuery = `SELECT EXISTS(SELECT 1 FROM clientes WHERE email = ?) AS userExists`;
+    db.get(userQuery, [correo], function(error, row) {
       try {
         if (error) {
           console.error('Error al consultar los datos:', error.message);
@@ -80,61 +92,93 @@ router.post('/signup', async (req, res) => {
 
         // User already exists, prompt a message and redirect
         if (userExists) {
-          return res.send('<script>alert("El usuario ingresado ya existe"); window.location.href = "/signup";</script>');
+          return res.render('sign_up_user', { message: 'El usuario ingresado ya existe', redirectUrl: '/signup' });
         }
               
-              // User does not exist, proceed with registration
-              const insertQuery = `INSERT INTO clientes (nombre, email, contraseña) VALUES (?, ?, ?)`;
-              db.run(insertQuery, [nombre, correo, contraseña], function(error) {
-                  try {
-                      if (error) {
-                          console.error('Error al guardar los datos:', error.message);
-                          return res.status(500).send('Error interno del servidor');
-                      }
-
-                      console.log(`Datos guardados correctamente. ID de cliente: ${this.lastID}`);
-                      res.redirect('/success');
-                  } catch (error) {
-                      // Handle the error here
-                      console.error('Error:', error.message);
-                      return res.status(500).send('Error interno del servidor');
-                  }
-              });
-          } catch (error) {
-              // Handle the error here
-              console.error('Error:', error.message);
+        // User does not exist, proceed with registration
+        const insertQuery = `INSERT INTO clientes (nombre, email, contraseña) VALUES (?, ?, ?)`;
+        db.run(insertQuery, [nombre, correo, hashedPassword], function(error) {
+          try {
+            if (error) {
+              console.error('Error al guardar los datos:', error.message);
               return res.status(500).send('Error interno del servidor');
+            }
+
+            console.log(`Datos guardados correctamente. ID de cliente: ${this.lastID}`);
+
+            // Send welcome email
+            let transporter = nodemailer.createTransport({
+              service: 'gmail',
+              auth: {
+                user: 'xconstruction56@gmail.com', // replace with your Gmail email
+                pass: 'mqsa gbxk acsk bcgr' // replace with your Gmail password
+              }
+            });
+
+            let mailOptions = {
+              from: 'xconstruction56@gmail.com', // replace with your Gmail email
+              to: correo,
+              subject: 'Queremos darte la Bienvenida a Nuestro Sitio Web XConstruction',
+              text: `Hola ${nombre}, Bienvido o Bienvenida a nuestro sitio web XConstruction!, Gracias Por Registrarte`
+            };
+
+            transporter.sendMail(mailOptions, function(error, info){
+              if (error) {
+                console.log(error);
+              } else {
+                console.log('Email sent: ' + info.response);
+              }
+            });
+
+            res.redirect('/success');
+          } catch (error) {
+            // Handle the error here
+            console.error('Error:', error.message);
+            return res.status(500).send('Error interno del servidor');
           }
-      });
+        });
+      } catch (error) {
+        // Handle the error here
+        console.error('Error:', error.message);
+        return res.status(500).send('Error interno del servidor');
+      }
+    });
   } catch (error) {
-      // Handle the error here
-      console.error('Error:', error.message);
-      return res.status(500).send('Error interno del servidor');
+    // Handle the error here
+    console.error('Error:', error.message);
+    return res.status(500).send('Error interno del servidor');
   }
 });
 
 router.get('/signin', (req, res) => {
-    res.render('sing_in_user');
+    res.render('sign_in_user');
 })
 
 router.post('/signin', (req, res) => {
-  const email = req.body.email; // Get the email from the form submission
-  const password = req.body.password; // Get the password from the form submission
+  const email = req.body.email;
+  const password = req.body.password;
 
-  const query = `SELECT * FROM clientes WHERE email = ? AND contraseña = ?`;
-  db.get(query, [email, password], (err, row) => {
+  const query = `SELECT * FROM clientes WHERE email = ?`;
+  db.get(query, [email], async (err, row) => {
     if (err) {
       console.error(err);
-      res.status(500).send('Internal Server Error');
+      res.status(500).render('signin', { message: 'Error Interno del Servidor', redirectUrl: '/signin' });
       return;
     }
 
     if (row) {
-      // If email and password match, redirect to /success_login
-      res.redirect('/success_login');
+      const passwordMatch = await bcrypt.compare(password, row.contraseña);
+      if (passwordMatch) {
+        // Store the email in the session
+        req.session.email = email;
+
+        // Redirect to /success_login
+        res.redirect('/success_login');
+      } else {
+        return res.render('sign_in_user', { message: 'Error en el correo o la contraseña', redirectUrl: '/signin' });
+      }
     } else {
-      // If email and password do not match, display an error message
-      return res.send('<script>alert("Error en el correo o la contraseña"); window.location.href = "/signin";</script>');
+      return res.render('sign_in_user', { message: 'Error en el correo o la contraseña', redirectUrl: '/signin' });
     }
   });
 });
@@ -165,15 +209,14 @@ router.get('/payments', function(req, res) {
     }
 
     // Log all codigo values
-    rows.forEach((row, index) => {
-      console.log(row.codigo);
+    rows.forEach((row, index) => {     
       if (index === 0) {
         producto_id = row.codigo;
       }
     });
 
     // Render template with total price, productCount, and products
-    res.render('payment', { totalPrice: totalPrice, productCount: productCount, productos: rows });
+    res.render('payment', { totalPrice: totalPrice, productCount: productCount, productos: rows});
   });
 });
 
@@ -199,11 +242,11 @@ router.post('/payments', function(req, res) {
     db.get(userQuery, [nombre], function(error, row) {
       if (error) {
         console.error('Error checking user:', error);
-        return res.status(500).send('<script>alert("Internal Server Error"); window.location.href = "/signin";</script>');
+        return res.render('sign_in_user', { message: 'Por favor inicia sesión para realizar una compra', redirectUrl: '/signin' });
       }
   
       if (!row) {
-        return res.send('<script>alert("Please sign in to make a purchase"); window.location.href = "/signin";</script>');
+        return res.render('sign_in_user', { message: 'Error Interno del Servidor', redirectUrl: '/signin' });
       }
 
       
@@ -274,40 +317,112 @@ router.post('/payments', function(req, res) {
                 ip_cliente: req.ip
               };
       
-              // Log paymentDetails to the console
-              console.log(paymentDetails);
-      
+                  
               // Save paymentDetails to the database
               const insertQuery = `INSERT INTO compras (cliente_id, producto_id, cantidad, total_pagado, fecha, ip_cliente) VALUES (?, ?, ?, ?, ?, ?)`;
               db.run(insertQuery, [paymentDetails.cliente_id, paymentDetails.producto_id, paymentDetails.cantidad, paymentDetails.total_pagado, paymentDetails.fecha, paymentDetails.ip_cliente], function(error) {
                 if (error) {
                   console.error('Error saving payment details:', error);
-                  return res.status(500).send('<script>alert("Internal Server Error"); window.location.href = "/signin";</script>');
+                  return res.status(500).render('sign_in_user', { message: 'Error Interno del Servidor', redirectUrl: '/signin' });
                 }
-      
+
+                // Send confirmation email
+                let transporter = nodemailer.createTransport({
+                  service: 'gmail',
+                  auth: {
+                    user: 'xconstruction56@gmail.com',
+                    pass: 'mqsa gbxk acsk bcgr'
+                  }
+                });
+
+                let mailOptions = {
+                  from: 'xconstruction56@gmail.com',
+                  to: req.session.email, // send to the logged-in user's email address
+                  subject: 'Confirmación de compra',
+                  text: 'Gracias por su compra.'
+                };
+
+                transporter.sendMail(mailOptions, function(error, info){
+                  if (error) {
+                    console.log(error);
+                  } else {
+                    console.log('Email sent: ' + info.response);
+                  }
+                });      
+                
                 // Render the 'payment' view with the total price
-                return res.send('<script>alert("Gracias por su compra"); window.location.href = "/";</script>');
+                res.status(200).send('Gracias por su Compra')
+                
               });
             }
           })
           .catch((error) => {
             console.error('Error validating credit card:', error);
-            return res.status(500).send('<script>alert("Internal Server Error"); window.location.href = "/signin";</script>');
+            return res.render('sign_in_user', { message: 'Error Interno del Servidor', redirectUrl: '/signin' });
           });
       });      
-    });
-    
-    
+    }); 
+  
 
-router.get('/shoppingCart', function(req, res) {
-  db.all('SELECT * FROM productos', [], (err, rows) => {
+})
+
+router.post('/forgot_password', async (req, res) => {
+  let userEmail = req.body.email;
+
+  // Check if the user's email exists in the database
+  let sqlCheck = `SELECT * FROM clientes WHERE email = ?`;
+  db.get(sqlCheck, [userEmail], async (err, row) => {
     if (err) {
-      throw err;
+      return console.error(err.message);
     }
-    res.render('shopping-cart', { products: rows });
+
+    // If the user's email is not in the database, render the sign in page with a message
+    if (!row) {
+      res.render('sign_in_user', { message: 'Correo electrónico no registrado. Por favor regístrese.' });
+      return;
+    }
+
+    // Generate a new password
+    let newPassword = crypto.randomBytes(10).toString('hex');
+
+    // Hash the new password before storing it
+    let hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    let transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'xconstruction56@gmail.com',
+        pass: 'mqsa gbxk acsk bcgr'
+      }
+    });
+
+    let mailOptions = {
+      from: 'xconstruction56@gmail.com',
+      to: userEmail,
+      subject: 'Recuperación de Contraseña',
+      text: `Tu nueva contraseña es: ${newPassword}\nPor favor cambie a esta contraseña después de iniciar sesión.`
+    };
+
+    try {
+      // Update the user's password in the database
+      let sql = `UPDATE clientes SET contraseña = ? WHERE email = ?`;
+      db.run(sql, [hashedPassword, userEmail], function(err) {
+        if (err) {
+          return console.error(err.message);
+        }
+        console.log(`Row(s) updated: ${this.changes}`);
+      });
+
+      await transporter.sendMail(mailOptions);
+      res.render('sign_in_user', { message: '¡Correo electrónico de recuperación de contraseña enviado!' });
+    } catch (error) {
+      console.error(error);
+      res.render('sign_in_user', { message: 'Error al enviar el correo electrónico.' });
+    }
   });
 });
-})
+
+
 
 module.exports = router;
 

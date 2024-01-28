@@ -1,33 +1,22 @@
 body{
-  margin:0px;
-  padding: 0px;
-  background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00ab);
-  background-size: 600% 600%;
-  animation: gradient 12s ease infinite;
-  overflow: hidden;
-  font-family: system-ui;
+	margin:0px;
+	padding: 0px;
+	background-color:#1b203d;
+	overflow: hidden;
+	font-family: system-ui;
 }
-
-@keyframes gradient {
-  0% {background-position: 0% 50%;}
-  50% {background-position: 100% 50%;}
-  100% {background-position: 0% 50%;}
-}
-
 .clearfix{
-  clear: both;
+	clear: both;
 }
-
 .logo{
-  margin: 0px;
-  margin-left: 28px;
-  font-weight: bold;
-  color: white;
-  margin-bottom: 30px;
+	margin: 0px;
+	margin-left: 28px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 30px;
 }
-
 .logo span{
-  color: #000;
+	color: #f7403b;
 }
 .sidenav {
   height: 100%;
@@ -36,12 +25,10 @@ body{
   z-index: 1;
   top: 0;
   left: 0;
-  background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00ab);
-  background-size: 600% 600%;
-  animation: gradient 12s ease infinite;
+  background-color: #272c4a;
   overflow: hidden;
+  transition: 0.5s;
   padding-top: 30px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
 }
 .sidenav a {
   padding: 15px 8px 15px 32px;
@@ -52,7 +39,7 @@ body{
   transition: 0.3s;
 }
 .sidenav a:hover {
-  color: #f1f1f1;
+  color: #f7403b;
   background-color:#1b203d;
 }
 .sidenav{
@@ -74,9 +61,9 @@ body{
 	float: left;
 }
 .profile{
-  float: right;
-  width: 160px;
-  display: block;
+	display: block;
+  float: right;	
+	width: 160px;
 }
 .pro-img{
 	float: left;
@@ -101,17 +88,12 @@ body{
 	float: left;
 }
 .box{
-  width: 85%;
-  height: 100px;
-  background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00ab);
-  background-size: 600% 600%;
-  animation: gradient 12s ease infinite;
-  margin-left: 10px;
-  padding:10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
-  transition: 0.3s;
+	width: 85%;
+	height: 100px;
+	background-color: #272c4a;
+	margin-left: 10px;
+	padding:10px;
 }
-
 .box p{
 	 font-size: 35px;
     color: white;
@@ -130,7 +112,7 @@ body{
 	font-size: 40px!important;
     float: right;
     margin-top: 35px!important;
-    color: #818181;
+    color: #fff;
     padding-right: 10px;
 }
 .col-div-8{
@@ -142,28 +124,24 @@ body{
 	float: left;
 }
 .content-box{
-  padding: 20px;
-  background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00ab);
-  background-size: 600% 600%;
-  animation: gradient 12s ease infinite;
+	padding: 20px;
 }
 .content-box p{
 	margin: 0px;
     font-size: 20px;
-    color: #fff;
+    color: #f7403b;
 }
 .content-box p span{
 	float: right;
-  background: #000;
+    background-color: #ddd;
     padding: 3px 10px;
     font-size: 15px;
 }
 .box-8, .box-4{
-  width: 95%;
-  background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00ab);
-  background-size: 600% 600%;
-  animation: gradient 12s ease infinite;
-  height: 330px;
+	width: 95%;
+	background-color: #272c4a;
+	height: 330px;
+	
 }
 .nav2{
 	display: none;
@@ -204,7 +182,7 @@ td, th {
 
 .circle-wrap .circle .mask .fill {
   clip: rect(0px, 75px, 150px, 0px);
-  background-color: #000;
+  background-color: #f7403b;
 }
 .circle-wrap .circle .mask.full,
 .circle-wrap .circle .fill {
@@ -233,8 +211,4 @@ td, th {
   z-index: 100;
   font-weight: 700;
   font-size: 2em;
-}
-
-.fa {
-  color: #000;
 }

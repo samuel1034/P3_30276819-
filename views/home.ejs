@@ -11,15 +11,18 @@
 	<body>
 		
 		<div id="mySidenav" class="sidenav">
-		<p class="logo"><span>X</span>-Construction</p>
-        <a href="#" class="icon-a"><i class="fa fa-dashboard icons"></i>   Panel Administrativo </a>        
-        <a href="/index/add_product" class="icon-a"><i class="fa fa-tasks icons"></i>   Agregar Productos </a>
-        <a href="index/edit_product" class="icon-a"><i class="fa fa-briefcase icons"></i>   Editar Productos </a>        
-        <a href="index/product_list" class="icon-a"><i class="fa fa-list-alt icons"></i> Lista de Productos </a>
-		<a href="index/all-clients" class="icon-a"><i class="fa fa-user icons"></i> Todos los Cientes </a>
-		<a href="index/all-purchases" class="icon-a"><i class="fa fa-shopping-cart icons"></i> Todas las compras </a>
-
-	</div>
+			<p class="logo"><span>X</span>-Construction</p>
+			<a href="#" class="icon-a"><i class="fa fa-dashboard icons"></i>   Panel Administrativo </a>        
+			<a href="/index/add_product" class="icon-a"><i class="fa fa-plus icons"></i>   Agregar Productos </a>
+			<a href="/index/edit_product" class="icon-a"><i class="fa fa-pencil-square icons"></i> Editar Producto </a>
+			<a href="/index/add_feature" class="icon-a"><i class="fa fa-plus icons"></i>   Agregar Categoría </a>
+			<a href="/index/edit-feature" class="icon-a" onclick="goToEditFeature(event)"><i class="fa fa-pencil-square icons"></i> Editar Categoría </a>        
+			<a href="/index/product_list" class="icon-a"><i class="fa fa-list-alt icons"></i> Lista de Productos </a>
+			<a href="/index/list-features" class="icon-a"><i class="fa fa-list-alt icons"></i> Lista de Categorias </a>
+			<a href="/index/all-clients" class="icon-a"><i class="fa fa-user icons"></i> Todos los Cientes </a>			
+			<a href="/index/all-purchases" class="icon-a"><i class="fa fa-shopping-cart icons"></i> Todas las Compras </a>
+	
+		</div>
 	
 	<div id="main">
 
@@ -157,6 +160,16 @@
 	 });
 
 	</script>
+
+<script>
+	function goToEditFeature(event) {
+	  event.preventDefault();
+	  const id = prompt("Introduzca el ID de la categoría que desea editar");
+	  if (id != null) {
+		window.location.href = `/edit-feature/${id}`;
+	  }
+	}
+  </script>
 
 	</body>
 

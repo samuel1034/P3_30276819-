@@ -7,46 +7,239 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel='stylesheet' href='/stylesheets/product_detail.css'/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+     <!-- Favicon -->
+     <link href="/img/favicon.ico" rel="icon">
+
+     <!-- Shorcut Icon -->
+     <link rel="shortcut icon" href="https://img.icons8.com/ios-filled/50/x.png" type="image/x-icon">
+ 
+     <!-- Google Web Fonts -->
+     <link rel="preconnect" href="https://fonts.gstatic.com">
+     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@500;700&display=swap" rel="stylesheet"> 
+ 
+     <!-- Icon Font Stylesheet -->
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet">
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+ 
+     <!-- Libraries Stylesheet -->
+     <link href="/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+     <link href="/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+     <link href="/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+ 
+     <!-- Customized Bootstrap Stylesheet -->
+     <link href="/css/bootstrap.min.css" rel="stylesheet">
+ 
+     <!-- Template Stylesheet -->
+     <link href="/css/style.css" rel="stylesheet">
+ 
+     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+         
+     <!-- RateYo Stylesheet -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
   </head>
   <body>
+
     
-    <div class="card-wrapper">
-      <% if (product) { %>
-          <div class="card">
-              <!-- card left -->
-              <div class="product-imgs">
-                  <div class="img-display">
-                      <div class="img-showcase">
-                          <img src="/<%= product.image.slice(8) %>" alt="<%= product.nombre %>">
-                      </div>
-                  </div>
-              </div>
-              <!-- card right -->
-              <div class="product-content">
-                <h2 class="product-title"><%= product.nombre %></h2>
-                <p class="product-description"><%= product.descripcion %></p>
-                <p class="product-price"><%= product.precio %> $</p>
-                <% if (product.codigo) { %>
-                    <p class="product-code">Codigo: <%= product.codigo %></p>
-                <% } %>
-                <% if (product.categoria_id) { %>
-                    <p class="product-category-id">Categoria ID: <%= product.categoria_id %></p>
-                <% } %>
-                <% if (product.caracteristica1) { %>
-                    <p class="product-feature-1">Característica 1: <%= product.caracteristica1 %></p>
-                <% } %>
-                <% if (product.caracteristica2) { %>
-                    <p class="product-feature-2">Característica 2: <%= product.caracteristica2 %></p>
-                <% } %>
+    
+        <!-- Navbar Start -->
+        <div class="container-fluid sticky-top bg-dark bg-light-radial shadow-sm px-5 pe-lg-0">
+            <nav class="navbar navbar-expand-lg bg-dark bg-light-radial navbar-dark py-3 py-lg-0">
+                <a href="/" class="navbar-brand">
+                    <h1 class="m-0 display-4 text-uppercase text-white custom-class"><img width="50" height="50" src="https://img.icons8.com/ios-filled/50/x.png" alt="x"/> CONSTRUCTION</h1>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <div class="navbar-nav ms-auto py-0">
+                        <a href="/" class="nav-item nav-link active">Inicio </a>
+                        <a href="/about_client" class="nav-item nav-link">Sobre Nosotros</a>
+                        <a href="/service_client" class="nav-item nav-link">Servicios</a>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Paginas</a>
+                            <div class="dropdown-menu m-0">
+                                <a href="http://localhost:3000/#our_products" class="dropdown-item">Nuestros Productos</a>
+                                <a href="http://localhost:3000/#team" class="dropdown-item">Nuestro Equipo </a>
+                                <a href="http://localhost:3000/#testimonial" class="dropdown-item">Testimonios</a>
+                                <a href="http://localhost:3000/#blog" class="dropdown-item"> Blog </a>
+                                <a href="/detail_client" class="dropdown-item">Detalles del Blog </a>
+                                <a href="http://localhost:3000/#contact" class="dropdown-item">Contactanos </a>
+                            </div>
+                        </div>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Usuario</a>
+                            <div class="dropdown-menu m-0">
+                                <a href="/signup" class="dropdown-item"> Registrarse</a>
+                                <a href="/signin" class="dropdown-item"> Iniciar sesión </a>                            
+                            </div>
+                        </div>                                    
+                        <a href="/login" class="nav-item nav-link bg-primary text-white px-5 ms-3 d-none d-lg-block"> Administrador <i class="bi bi-arrow-right"></i></a>
+                        
+                    </div>
+                </div>
+            </nav>
+            
+        </div>
+        <!-- Navbar End -->
+        
+     <section class="container my-5 pt-5">
+    <div class="row">
+        <div class="col-lg-6 col-md-12 col-12">
+            <!-- Product Image -->
+            <% if (product) { %>
+            <div class="card">
+                <img class="img-fluid w-50 h-50" src="/<%= product.image.slice(8) %>" alt="<%= product.nombre %>">
             </div>
-          </div>
-      <% } else { %>
-          <p>No product found.</p>
-      <% } %>
-      <a href="/" class="back-button">Regresar a la pagina principal</a>
-  </div>
+        </div>
+        <% } %>
+        <div class="col-lg-6 col-md-12 col-12">
+            <!-- Product Details -->
+            <div class="card1">
+                <div class="card-body">
+                    <h2 class="product-title"><%= product.nombre %></h2>
+                    <p class="product-description"><%= product.descripcion %></p>
+                    <p class="product-price"><%= product.precio %> $</p>
+                    <% if (product.codigo) { %>
+                        <p class="product-code">Codigo: <%= product.codigo %></p>
+                    <% } %>
+                    <% if (product.categoria_id) { %>
+                        <p class="product-category-id">Categoria ID: <%= product.categoria_id %></p>
+                    <% } %>
+                    <% if (product.caracteristica1) { %>
+                        <p class="product-feature-1">Característica 1: <%= product.caracteristica1 %></p>
+                    <% } %>
+                    <% if (product.caracteristica2) { %>
+                        <p class="product-feature-2">Característica 2: <%= product.caracteristica2 %></p>
+                    <% } %>                    
+                    <!-- Buy Now Button -->
+                    <a href="http://localhost:3000/#our_products">
+                        <button class="btn btn-primary mt-3">
+                            <i class="fas fa-shopping-cart"></i> Comprar Ahora!
+                        </button>
+                    </a>
+
+                    <button type="button" class="btn btn-secondary mt-3" data-toggle="modal" data-target="#reviewModal">
+                        <i class="fas fa-plus"></i> Agrega una reseña
+                    </button>                  
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <a href="/" class="btn btn-primary mt-3">Regresar al Incio</a>
+    
+</section>
+
+    <!-- Review Modal -->
+<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reviewModalLabel">Agrega una reseña</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="reviewText" class="text-dark">Reseña</label>
+                        <textarea class="form-control text-dark" id="reviewText" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Agregar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+     <!-- Footer Start -->
+     <div class="footer container-fluid position-relative bg-dark bg-light-radial text-white-50 py-6 px-5">
+        <div class="row g-5">
+            <div class="col-lg-6 pe-lg-5">
+                <a href="/" class="navbar-brand">
+                    <h1 class="m-0 display-4 text-uppercase text-white custom-class"><img width="50" height="50" src="https://img.icons8.com/ios-filled/50/x.png" alt="x"/> CONSTRUCTION</h1>
+                </a>
+                <p>Sitio Web de venta de artículos de construcción que ofrece una amplia variedad de productos de alta calidad a precios competitivos. El sitio web cuenta con una interfaz intuitiva y fácil de usar, así como con un servicio al cliente atento y profesional.</p>
+                <span class="text-light"> <img class="spain-flag" src="https://usagif.com/wp-content/uploads/gifs/spanish-flag-4.gif" alt="">Barcelona, España </span>
+                <p><i class="fa fa-phone-alt me-2"></i>+34 624 739 342</p>
+                <p><i class="fa fa-envelope me-2"></i>Xconstruction@gmail.com</p>
+                <div class="d-flex justify-content-start mt-4">
+                    <a class="btn btn-lg btn-primary btn-lg-square rounded-0 me-2" href="/"><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-lg btn-primary btn-lg-square rounded-0 me-2" href="/"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-lg btn-primary btn-lg-square rounded-0 me-2" href="/"><i class="fab fa-linkedin-in"></i></a>
+                    <a class="btn btn-lg btn-primary btn-lg-square rounded-0" href="/"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-6 ps-lg-5">
+                <div class="row g-5">
+                    <div class="col-sm-6">
+                        <h4 class="text-white text-uppercase mb-4">Links Rápidos</h4>
+                        <div class="d-flex flex-column justify-content-start">
+                            <a href="http://localhost:3000/" class="nav-item nav-link active">Inicio </a>
+                            <a href="http://localhost:3000/about_client" class="nav-item nav-link">Sobre Nosotros</a>
+                            <a href="http://localhost:3000/service_client" class="nav-item nav-link">Servicios</a>
+                            <a href="http://localhost:3000/#team" class="nav-item nav-link">Nuestro Equipo </a>
+                            <a href="http://localhost:3000/#contact" class="nav-item nav-link">Contactanos </a>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <h4 class="text-white text-uppercase mb-4">Links Populares</h4>
+                        <div class="d-flex flex-column justify-content-start">
+                            <a href="http://localhost:3000/" class="nav-item nav-link active">Inicio </a>
+                            <a href="http://localhost:3000/about_client" class="nav-item nav-link">Sobre Nosotros</a>
+                            <a href="http://localhost:3000/service_client" class="nav-item nav-link">Servicios</a>
+                            <a href="http://localhost:3000/#team" class="nav-item nav-link">Nuestro Equipo </a>
+                            <a href="http://localhost:3000/#contact" class="nav-item nav-link">Contactanos </a>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <h4 class="text-white text-uppercase mb-4">Boletin informativo</h4>
+                        <div class="w-100">
+                            <div class="input-group">
+                                <input type="text" class="form-control border-light" style="padding: 20px 30px;" placeholder="Su dirección de correo electrónico"><button class="btn btn-primary px-4">Acceder </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid bg-dark bg-light-radial text-white border-top border-primary px-0">
+        <div class="d-flex flex-column flex-md-row justify-content-between">
+            <div class="py-4 px-5 text-center text-md-start">
+                <p class="mb-0">&copy; <a class="text-primary" href="https://freewebsitecode.com/">XConstruction</a>. Todos los derechos reservados.</p>
+            </div>
+            <div class="py-4 px-5 bg-primary footer-shape position-relative text-center text-md-end">
+                <p class="mb-0">Diseñado por <a class="text-dark" href="#"> XConstruction</a></p>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
   
     
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/lib/easing/easing.min.js"></script>
+    <script src="/lib/waypoints/waypoints.min.js"></script>
+    <script src="/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="/lib/tempusdominus/js/moment.min.js"></script>
+    <script src="/lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="/lib/isotope/isotope.pkgd.min.js"></script>
+    <script src="/lib/lightbox/js/lightbox.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+   
     <script src="script.js"></script>
   </body>
 </html>
