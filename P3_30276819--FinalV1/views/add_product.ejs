@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='/stylesheets/addProduct.css'/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/399/399271.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@500;700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,900&family=Roboto:ital,wght@0,100;0,500;0,700;0,900;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <title> Agregar Productos </title>
+</head>
+<body>
+    <section class="contact">
+        <div class="contact-form">
+            <h1> Agregar <span> Producto </span></h1>
+            <p> Llena este formulario para agregar productos </p>
+            <form action="/index/add_product" method="post" enctype="multipart/form-data">
+                <input type="text" name="nombre" id="name" placeholder="Nombre del Producto" required>
+                <input type="text" name="codigo" id="codigo" placeholder="Código del Producto" required>
+                <input type="number" name="precio" id="precio" placeholder="Precio del Producto" required>
+                <textarea name="descripcion" id="description" placeholder="Descripción del Producto" required></textarea>
+                <input type="number" name="categoria_id" id="category" placeholder="Categoría del Producto" required>
+                <input type="text" name="caracteristica1" id="caracteristica1" placeholder="Característica 1 del Producto" required>
+                <input type="text" name="caracteristica2" id="caracteristica2" placeholder="Característica 2 del Producto" required>
+                <label for="productImage">Imagen del Producto:</label>
+                <input type="file" id="productImage" name="productImage" accept="image/*">
+                <input type="submit" value="Agregar Producto" class="btn">
+            </form>
+        </div>
+        <div class="contact-img">
+            <img src="/img/main.jpg" alt="">
+        </div>
+        </section>
+        </body>
+        </html>
+
