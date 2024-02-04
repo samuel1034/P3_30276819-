@@ -38,6 +38,7 @@ router.get('/', function (req, res) {
 });
 router.get('/product_detail/:codigo', function(req, res) {
   const codigo = req.params.codigo;
+  const cliente_email = req.session.email;
 
   // Get the product details from the database
   db.get('SELECT * FROM productos WHERE codigo = ?', [codigo], function(err, product) {
@@ -45,11 +46,35 @@ router.get('/product_detail/:codigo', function(req, res) {
       console.log('Error:', err.message); // Log the error message
       res.send("Error occurred while getting product details");
     } else {
-      // Render the product detail page, passing the product details and the user's email
-      res.render('product_detail', { email: req.session.email, product: product });
+      // Check if a review from the user for the product already exists
+      db.get("SELECT * FROM calificaciones WHERE producto_id = ? AND cliente_id = ?", [codigo, cliente_email], function(err, row) {
+        if (err) {
+          console.error(err.message);
+          res.send("Error occurred while checking for existing review");
+        } else {
+          const reviewExists = !!row; // Convert row to boolean. If row exists, reviewExists will be true, otherwise false.
+
+          // Get the ratings from the database
+          db.all("SELECT * FROM calificaciones", [], (err, rows) => {
+            if (err) {
+              console.error(err.message);
+              res.send("Error occurred while getting ratings");
+            } else {
+              let ratingSum = 0;
+              for (let i = 0; i < rows.length; i++) {
+                ratingSum += rows[i].rating;
+              }
+              let averageRating = (rows.length > 0) ? ratingSum / rows.length : 0;
+              // Render the product detail page, passing the product details, the user's email, the average rating, and reviewExists
+              res.render('product_detail', { email: req.session.email, product: product, averageRating: averageRating, calificaciones: rows, reviewExists: reviewExists });
+            }
+          });
+        }
+      });
     }
   });
 });
+
 router.get('/about_client', function(req, res){
     res.render('about_client');
 });
@@ -165,8 +190,9 @@ router.post('/signin', (req, res) => {
     if (row) {
       const passwordMatch = await bcrypt.compare(password, row.contraseña);
       if (passwordMatch) {
-        // Store the email in the session
+        // Store the email and nombre in the session
         req.session.email = email;
+        req.session.nombre = row.nombre;
 
         // Redirect to /success_login
         res.redirect('/success_login');
@@ -420,43 +446,36 @@ router.post('/forgot_password', async (req, res) => {
 
 router.post('/product_detail/:codigo', function(req, res){
   const codigo = req.params.codigo;    
-  const calificacion = req.body.calificacion; // Get the rating from the request body
+  const calificacion = req.body.rating; // Get the rating from the request body
   const review = req.body.review; // Get the review from the request body
-  const cliente_email = req.session.email; // Assuming you're storing the user's email in the session
+  const cliente_email = req.session.email;
+  const client_name = req.session.nombre; // Get the nombre from the session
 
-  // Check if the user is logged in
-  if (!cliente_email) {
-    // If not, redirect to the sign in page
-    return res.redirect('/signin');
-  }
-
-  // Get the user's ID from the database
-  db.get('SELECT id FROM clientes WHERE email = ?', [cliente_email], function(err, row) {
+  // Insert the new rating into the database
+  db.run("INSERT INTO calificaciones (producto_id, cliente_id, calificacion, review, client_name) VALUES (?, ?, ?, ?, ?)", [codigo, cliente_email, calificacion, review, client_name], function(err) {
     if (err) {
-      console.log('Error:', err.message); // Log the error message
-      res.send("Error occurred while getting user ID");
-    } else if (!row) {
-      // If no user is found, send an error message
-      res.send("No user found with this email");
+      console.error(err.message);
+      res.send("Error occurred while inserting rating");
     } else {
-      const cliente_id = row.id;
-
-      // Check if a rating already exists from this user for this product
-      db.get('SELECT * FROM calificaciones WHERE producto_id = ? AND cliente_id = ?', [codigo, cliente_id], function(err, row) {
+      // Get the ratings from the database
+      db.all("SELECT calificacion FROM calificaciones WHERE producto_id = ?", [codigo], (err, rows) => {
         if (err) {
-          console.log('Error:', err.message); // Log the error message
-          res.send("Error occurred while checking for existing rating");
-        } else if (row) {
-          // If a rating already exists, send an error message
-          res.send("You have already rated this product");
+          console.error(err.message);
+          res.send("Error occurred while getting ratings");
         } else {
-          // If no rating exists, insert the new rating into the database
-          db.run('INSERT INTO calificaciones (producto_id, cliente_id, calificacion, review) VALUES (?, ?, ?, ?)', [codigo, cliente_id, calificacion, review], function(err) {
+          let ratingSum = 0;
+          for (let i = 0; i < rows.length; i++) {
+            ratingSum += rows[i].calificacion;
+          }
+          let averageRating = (rows.length > 0) ? ratingSum / rows.length : 0;
+
+          // Update the average rating in the calificaciones table
+          db.run("UPDATE calificaciones SET promedio = ? WHERE producto_id = ?", [averageRating, codigo], function(err) {
             if (err) {
-              console.log('Error:', err.message); // Log the error message
-              res.send("Error occurred while adding rating");
+              console.error(err.message);
+              res.send("Error occurred while updating average rating");
             } else {
-              // Redirect the user back to the product detail page
+              // Redirect to the product detail page, where the new average rating will be displayed
               res.redirect('/product_detail/' + codigo);
             }
           });
@@ -465,7 +484,6 @@ router.post('/product_detail/:codigo', function(req, res){
     }
   });
 });
-
 
 module.exports = router;
 
