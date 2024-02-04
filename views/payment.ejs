@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='/stylesheets/payment.css'/>
+    <link rel="shortcut icon" href="https://img.icons8.com/fluency/96/us-dollar-circled--v1.png" alt="us-dollar-circled--v1" type="image/x-icon">
+    <title> Pagar </title>
+
+       <!-- Open Graph -->
+       <meta property="og:title" content="Pagar | X Construction" />
+       <meta property="og:type" content="website" />
+       <meta property="og:url" content="http://www.XConstruction.onrender.com/payments" />
+       <meta property="og:image" content="https://img.icons8.com/fluency/96/us-dollar-circled--v1.png" />
+       <meta property="og:description" content="Página de pago de X Construction" />
+       <meta property="og:site_name" content="X Construction" />
+       
+       <!-- Schema Markup -->       
+       <script type="application/ld+json">
+        
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "CheckoutPage",
+            "name": "Pagar",
+            "url": "http://www.XConstruction.onrender.com/payments",
+            "image": "https://img.icons8.com/fluency/96/us-dollar-circled--v1.png",
+            "description": "Página de pago de X Construction"
+        }
+        </script>
+
+        <!-- Google Analytics -->
+
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NM5878E4JV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-NM5878E4JV');
+</script>
+
+</head>
+<body>
+    <% if (typeof message !== 'undefined') { %>
+        <script>
+            alert('<%= message %>');
+        </script>
+    <% } %>
+    <form action="/payments" method="POST">
+        <div class="container">
+            <div class="price">
+                <h1>Genial, Son $<%= totalPrice %> !</h1>                
+                <input type="hidden" name="totalPrice" value="<%= totalPrice %>">
+                <input type="hidden" name="productCount" value="<%= productCount %>">
+            </div>
+        <div class="card__container">
+            <div class="card">
+                <div class="row paypal">
+                    <div class="left">                                              
+                        <label for="pp">Tarjeta de Credito Gold </label>
+                    </div>
+                    <div class="right">
+                        <img src="https://img.icons8.com/emoji/96/credit-card-emoji.png" alt="gold" />
+                    </div>
+                </div>
+                <div class="row credit">
+                    <div class="left">                    
+                        <label for="cd">Tarjeta de Credito</label>
+                    </div>
+                    <div class="right">
+                        <img src="https://img.icons8.com/color-glass/48/visa.png" alt="visa" />
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MasterCard_Logo.svg/1280px-MasterCard_Logo.svg.png" alt="mastercard" />
+                        <img src="https://img.icons8.com/fluency/96/amex.png" alt="amex" />
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Maestro_logo.png/640px-Maestro_logo.png" alt="maestro" />
+                    </div>
+                </div>
+                
+                <div class="row cardholder">
+                    <div class="info">
+                        <label for="cardholdername">Nombre</label>
+                        <input placeholder="e.g. Richard Bovell" id="nombre" type="text" name="nombre" />
+                    </div>
+                </div>
+                <div class="row number">
+                    <div class="info">
+                        <label for="cardnumber">Número de tarjeta</label>
+                        <input id="cardnumber" type="text" pattern="[0-9]{16,19}" maxlength="19" placeholder="8888-8888-8888-8888" name="cardnumber" />
+                    </div>
+                </div>
+                <div class="row details">
+                    <div class="left">
+                        <label for="expiry-date">Expiración</label>
+                        <select id="expiry-date" name="expiry-month">
+                            <option>MM</option>
+                            <option value="1">01</option>
+                            <option value="2">02</option>
+                            <option value="3">03</option>
+                            <option value="4">04</option>
+                            <option value="5">05</option>
+                            <option value="6">06</option>
+                            <option value="7">07</option>
+                            <option value="8">08</option>
+                            <option value="9">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+                        <span>/</span>
+                        <select id="expiry-date" name="expiry-year">
+                            <option>YYYY</option>
+                            <option value="2016">2016</option>
+                            <option value="2017">2017</option>
+                            <option value="2018">2018</option>
+                            <option value="2019">2019</option>
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                            <option value="2026">2026</option>
+                            <option value="2027">2027</option>
+                            <option value="2028">2028</option>
+                            <option value="2029">2029</option>
+                            <option value="2030">2030</option>
+                        </select>
+                    </div>
+                    <div class="right">
+                        <label for="cvv">CVC/CVV</label>
+                        <input type="text" maxlength="4" placeholder="123" name="cvv" />
+                        <span data-balloon-length="medium" data-balloon="The 3 or 4-digit number on the back of your card." data-balloon-pos="up">i</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="button">
+            <button type="submit"><i class="ion-locked"></i> Confirmar y realizar el pago</button>
+        </div>
+        </div>
+    </form>
+</body>
+</html>

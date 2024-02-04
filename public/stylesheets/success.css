@@ -1,0 +1,56 @@
+body {
+    background-color: #e3f2fd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .success-container {
+    text-align: center;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .success-icon {
+    font-size: 100px;
+    color: #4070f4;
+  }
+  
+  h1 {
+    font-size: 36px;
+    font-weight: 600;
+    color: #333;
+    margin-top: 20px;
+  }
+  
+  p {
+    font-size: 18px;
+    color: #333;
+    margin-top: 20px;
+  }
+  
+  /* Add hover effect for success icon */
+  .success-icon:hover {
+    transform: scale(1.2);
+  }
+  
+  /* Add animation for success container */
+  @keyframes slideIn {
+    0% {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .success-container {
+    animation: slideIn 0.5s ease;
+  }

@@ -1,0 +1,177 @@
+<!Doctype HTML>
+	<html>
+	<head>
+		<title> Panel Administrativo</title>
+		<link rel='stylesheet' href='/stylesheets/styles.css' />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="shortcut icon" href="https://img.icons8.com/ios-filled/50/x.png" type="image/x-icon">
+	</head>
+
+
+	<body>
+		
+		<div id="mySidenav" class="sidenav">
+			<p class="logo"><span>X</span>-Construction</p>
+			<a href="#" class="icon-a"><i class="fa fa-dashboard icons"></i>   Panel Administrativo </a>        
+			<a href="/index/add_product" class="icon-a"><i class="fa fa-plus icons"></i>   Agregar Productos </a>
+			<a href="/index/edit_product" class="icon-a"><i class="fa fa-pencil-square icons"></i> Editar Producto </a>
+			<a href="/index/add_feature" class="icon-a"><i class="fa fa-plus icons"></i>   Agregar Categoría </a>
+			<a href="/index/edit-feature" class="icon-a" onclick="goToEditFeature(event)"><i class="fa fa-pencil-square icons"></i> Editar Categoría </a>        
+			<a href="/index/product_list" class="icon-a"><i class="fa fa-list-alt icons"></i> Lista de Productos </a>
+			<a href="/index/list-features" class="icon-a"><i class="fa fa-list-alt icons"></i> Lista de Categorias </a>
+			<a href="/index/all-clients" class="icon-a"><i class="fa fa-user icons"></i> Todos los Cientes </a>			
+			<a href="/index/all-purchases" class="icon-a"><i class="fa fa-shopping-cart icons"></i> Todas las Compras </a>
+	
+		</div>
+	
+	<div id="main">
+
+		<div class="head">
+			<div class="col-div-6">
+	<span style="font-size:30px;cursor:pointer; color: white;" class="nav"  >☰ Panel Administrativo</span>
+	<span style="font-size:30px;cursor:pointer; color: white;" class="nav2"  >☰ Panel Administrativo </span>
+	</div>
+		
+		<div class="col-div-6">
+		<div class="profile">
+
+			<img src="https://cdn-icons-png.flaticon.com/512/9187/9187604.png" class="pro-img" />
+			<p> Administrador <span> X Construction </span></p>
+		</div>
+	</div>
+		<div class="clearfix"></div>
+	</div>
+
+		<div class="clearfix"></div>
+		<br/>
+		
+		<div class="col-div-3">
+			<div class="box">
+				<p>67<br/><span>Empleados</span></p>
+				<i class="fa fa-users box-icon"></i>
+			</div>
+		</div>
+		<div class="col-div-3">
+			<div class="box">
+				<p>88<br/><span>Proyectos</span></p>
+				<i class="fa fa-list box-icon"></i>
+			</div>
+		</div>
+		<div class="col-div-3">
+			<div class="box">
+				<p>99<br/><span>Pedidos </span></p>
+				<i class="fa fa-shopping-bag box-icon"></i>
+			</div>
+		</div>
+		<div class="col-div-3">
+			<div class="box">
+				<p>78<br/><span>Trabajos</span></p>
+				<i class="fa fa-tasks box-icon"></i>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<br/><br/>
+		<div class="col-div-8">
+			<div class="box-8">
+			<div class="content-box">
+				<p>Los más vendidos</p>
+				<br/>
+				<table>
+	  <tr>
+	    <th>Compañía</th>
+	    <th>Contacto</th>
+	    <th>País</th>
+	  </tr>
+	  <tr>
+	    <td>Baugewerbe Deutschland</td>
+	    <td>Maria Anders</td>
+	    <td>Alemania</td>
+	  </tr>
+	  <tr>
+	    <td>Centro Comercial Moctezuma</td>
+	    <td>Francisco Chang</td>
+	    <td>Mexico</td>
+	  </tr>
+	  <tr>
+	    <td>Строительство Россия</td>
+	    <td>Александр Петрович</td>
+	    <td>Rusia </td>
+	  </tr>
+	  <tr>
+	    <td>House Construction </td>
+	    <td>Helen Bennett</td>
+	    <td>Reino Unido</td>
+	  </tr>
+	  
+	  
+	</table>
+			</div>
+		</div>
+		</div>
+
+		<div class="col-div-4">
+			<div class="box-4">
+			<div class="content-box">
+				<p> Ventas Completadas</p>
+
+				<div class="circle-wrap">
+	    <div class="circle">
+	      <div class="mask full">
+	        <div class="fill"></div>
+	      </div>
+	      <div class="mask half">
+	        <div class="fill"></div>
+	      </div>
+	      <div class="inside-circle"> 70% </div>
+	    </div>
+	  </div>
+			</div>
+		</div>
+		</div>
+			
+		<div class="clearfix"></div>
+	</div>
+
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script>
+
+	  $(".nav").click(function(){
+	    $("#mySidenav").css('width','70px');
+	    $("#main").css('margin-left','70px');
+	    $(".logo").css('visibility', 'hidden');
+	    $(".logo span").css('visibility', 'visible');
+	     $(".logo span").css('margin-left', '-10px');
+	     $(".icon-a").css('visibility', 'hidden');
+	     $(".icons").css('visibility', 'visible');
+	     $(".icons").css('margin-left', '-8px');
+	      $(".nav").css('display','none');
+	      $(".nav2").css('display','block');
+	  });
+
+	$(".nav2").click(function(){
+	    $("#mySidenav").css('width','300px');
+	    $("#main").css('margin-left','300px');
+	    $(".logo").css('visibility', 'visible');
+	     $(".icon-a").css('visibility', 'visible');
+	     $(".icons").css('visibility', 'visible');
+	     $(".nav").css('display','block');
+	      $(".nav2").css('display','none');
+	 });
+
+	</script>
+
+<script>
+	function goToEditFeature(event) {
+	  event.preventDefault();
+	  const id = prompt("Introduzca el ID de la categoría que desea editar");
+	  if (id != null) {
+		window.location.href = `/edit-feature/${id}`;
+	  }
+	}
+  </script>
+
+	</body>
+
+
+	</html>

@@ -1,0 +1,15 @@
+body {
+    background-color:  darkblue;
+    color: #a9b7c6;
+    font-family: Arial, sans-serif;
+  }
+  
+  h1 {
+    color: #ffc66d;
+  }
+ 
+  h1 img {    
+    padding-left: 20px;
+    width: 264px;
+    height: auto;
+  }

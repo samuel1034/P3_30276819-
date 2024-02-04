@@ -1,0 +1,99 @@
+/* Importing Google fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+/* General styles */
+body {
+    background-color: #1a1a1a;
+    color: #f2f2f2;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding-right: 10rem;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+}
+
+h2 {
+    color: #08f; /* Neon blue */
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 45px;
+    margin-block-end: auto;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+li {
+  background-color: #232323;
+  border-radius: 15px;
+  margin: 20px auto;
+  max-width: 900px; /* Increase max-width for a wider look */
+  padding: 20px 70px;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.19), 0px 6px 6px rgba(0, 0, 0, 0.23);
+  transition: all 0.3s ease;
+  width: 300px;
+  height: 663px;
+}
+
+li:hover {
+  transform: scale(1.02); /* Slightly enlarge the list item on hover */
+  box-shadow: 0px 14px 28px rgba(0, 0, 0, 0.25), 0px 10px 10px rgba(0, 0, 0, 0.22); /* Increase box shadow on hover */
+}
+
+li h3 {
+  color: #64b5f6; /* Lighter neon blue */
+  margin-bottom: 20px;
+}
+
+li p {
+  color: #f2f2f2;
+  margin-bottom: 20px;
+}
+
+.neon-button {
+    font-size: 2rem;
+    display: inline-block;
+    cursor: pointer;
+    text-decoration: none;
+    color: #08f; /* Neon blue */
+    border: #08f 0.125em solid; /* Neon blue */
+    padding: 0.25em 1em;
+    border-radius: 0.25em;
+    text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em currentColor;
+    box-shadow: inset 0 0 0.5em 0 #08f, 0 0 0.5em 0 #08f; /* Neon blue */
+    position: relative;
+}
+
+.neon-image {
+    width: 250px; /* Adjust as needed */
+    height: 250px;
+    filter: drop-shadow(0 0 10px #08f); /* Neon blue */
+    margin-bottom: 20px; /* Add space below the image */
+    transition: transform 0.3s ease; /* Add transition for hover effect */
+}
+
+.neon-image:hover {
+    transform: scale(1.1); /* Add hover effect to slightly enlarge the image */
+}
+
+.remove-button {
+    background-color: #1e90ff; /* Neon blue */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 20px; /* Add space above the button */
+}
+
+.remove-button:hover {
+    background-color: #00bfff; /* Lighter neon blue */
+    transform: scale(1.1);
+}
+
