@@ -36,24 +36,20 @@ router.get('/', function (req, res) {
         }
     });
 });
+router.get('/product_detail/:codigo', function(req, res) {
+  const codigo = req.params.codigo;
 
-router.get('/product_detail/:codigo', function(req, res){
-    const codigo = req.params.codigo;    
-
-    db.get('SELECT * FROM productos WHERE codigo = ?', [codigo], (err, product) => {
-        if (err) {
-            console.log('Error:', err.message); // Log the error message
-            res.send("Error occurred while fetching product");
-        } else {
-            if (product) {                
-                res.render('product_detail', { product: product });
-            } else {                
-                res.send('No product found with the provided codigo');
-            }
-        }
-    });
+  // Get the product details from the database
+  db.get('SELECT * FROM productos WHERE codigo = ?', [codigo], function(err, product) {
+    if (err) {
+      console.log('Error:', err.message); // Log the error message
+      res.send("Error occurred while getting product details");
+    } else {
+      // Render the product detail page, passing the product details and the user's email
+      res.render('product_detail', { email: req.session.email, product: product });
+    }
+  });
 });
-
 router.get('/about_client', function(req, res){
     res.render('about_client');
 });
@@ -422,6 +418,53 @@ router.post('/forgot_password', async (req, res) => {
   });
 });
 
+router.post('/product_detail/:codigo', function(req, res){
+  const codigo = req.params.codigo;    
+  const calificacion = req.body.calificacion; // Get the rating from the request body
+  const review = req.body.review; // Get the review from the request body
+  const cliente_email = req.session.email; // Assuming you're storing the user's email in the session
+
+  // Check if the user is logged in
+  if (!cliente_email) {
+    // If not, redirect to the sign in page
+    return res.redirect('/signin');
+  }
+
+  // Get the user's ID from the database
+  db.get('SELECT id FROM clientes WHERE email = ?', [cliente_email], function(err, row) {
+    if (err) {
+      console.log('Error:', err.message); // Log the error message
+      res.send("Error occurred while getting user ID");
+    } else if (!row) {
+      // If no user is found, send an error message
+      res.send("No user found with this email");
+    } else {
+      const cliente_id = row.id;
+
+      // Check if a rating already exists from this user for this product
+      db.get('SELECT * FROM calificaciones WHERE producto_id = ? AND cliente_id = ?', [codigo, cliente_id], function(err, row) {
+        if (err) {
+          console.log('Error:', err.message); // Log the error message
+          res.send("Error occurred while checking for existing rating");
+        } else if (row) {
+          // If a rating already exists, send an error message
+          res.send("You have already rated this product");
+        } else {
+          // If no rating exists, insert the new rating into the database
+          db.run('INSERT INTO calificaciones (producto_id, cliente_id, calificacion, review) VALUES (?, ?, ?, ?)', [codigo, cliente_id, calificacion, review], function(err) {
+            if (err) {
+              console.log('Error:', err.message); // Log the error message
+              res.send("Error occurred while adding rating");
+            } else {
+              // Redirect the user back to the product detail page
+              res.redirect('/product_detail/' + codigo);
+            }
+          });
+        }
+      });
+    }
+  });
+});
 
 
 module.exports = router;

@@ -233,3 +233,49 @@ body{
     right: 0;
     margin: auto;
 }
+
+.rating {
+    direction: rtl; /* Reverse the order of the radio buttons to make the stars fill from right to left */
+  }
+  
+  .rating input[type="radio"] {
+    display: none; /* Hide the radio buttons */
+  }
+  
+  .rating label {
+    color: #ccc; /* Initial color of the stars */
+    font-size: 24px;
+    padding: 0;
+    cursor: pointer;
+    display: inline-block;
+  }
+  
+  .rating label i.fa-star {
+    color: #ccc;
+    font-size: 24px; /* Initial color of the stars */
+  }
+  
+  .rating .star5:checked ~ label i.fa-star,
+  .rating .star5:checked ~ label ~ label i.fa-star {
+    color: orange; /* Color of the stars when star5 is selected */
+  }
+  
+  .rating .star4:checked ~ label i.fa-star,
+  .rating .star4:checked ~ label ~ label i.fa-star {
+    color: orange; /* Color of the stars when star4 is selected */
+  }
+  
+  .rating .star3:checked ~ label i.fa-star,
+  .rating .star3:checked ~ label ~ label i.fa-star {
+    color: orange; /* Color of the stars when star3 is selected */
+  }
+  
+  .rating .star2:checked ~ label i.fa-star,
+  .rating .star2:checked ~ label ~ label i.fa-star {
+    color: orange; /* Color of the stars when star2 is selected */
+  }
+  
+  .rating .star1:checked ~ label i.fa-star,
+  .rating .star1:checked ~ label ~ label i.fa-star {
+    color: orange; /* Color of the stars when star1 is selected */
+  }
