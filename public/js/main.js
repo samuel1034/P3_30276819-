@@ -104,15 +104,16 @@ const buyButtons = document.querySelectorAll('.buy-button');
 const shoppingList = document.querySelector('.shopping-list');
 const cartItems = shoppingList.querySelector('.cart-items');
 const quantityDisplay = document.querySelector('.cantidad');
-
+const totalPriceElement = document.querySelector('.total-price');
 
 let productCount = 0;
+let totalPrice = 0;
 
 buyButtons.forEach(button => {
     button.addEventListener('click', () => {
         const product = button.parentElement.parentElement;
         const productName = product.querySelector('.hiddenProductName').value;
-        const productDescription = product.querySelector('.hiddenProductDescription').value;
+        const productDescription = parseFloat(product.querySelector('.hiddenProductDescription').value);
         const productImage = product.querySelector('.product-image').getAttribute('src');
 
         const cartItem = document.createElement('div');
@@ -126,17 +127,39 @@ buyButtons.forEach(button => {
             <button class="remove-button">Eliminar</button>
         `;
 
+        // Store product price in cart item
+        cartItem.dataset.price = productDescription;
+
         cartItems.appendChild(cartItem);
+
+        // Add product price to total price
+        totalPrice += productDescription;
+
+        // Update total price element
+        totalPriceElement.textContent = 'Total: $' + totalPrice.toFixed(2);
 
         productCount++;
 
         quantityDisplay.textContent = 'Cantidad: ' + productCount;
 
-        const removeButtons = shoppingList.querySelectorAll('.remove-button');
-        removeButtons.forEach(removeButton => {
-            removeButton.addEventListener('click', () => {
-                removeButton.parentElement.remove();
-            });
+        const removeButton = cartItem.querySelector('.remove-button');
+        removeButton.addEventListener('click', () => {
+            // Get product price from cart item
+            const productPrice = parseFloat(cartItem.dataset.price);
+
+            // Subtract product price from total price
+            totalPrice -= productPrice;
+
+            // Update total price element
+            totalPriceElement.textContent = 'Total: $' + totalPrice.toFixed(2);
+
+            // Decrease product count
+            productCount--;
+
+            // Update quantity display
+            quantityDisplay.textContent = 'Cantidad: ' + productCount;
+
+            cartItem.remove();
         });
     });
 });
@@ -146,44 +169,6 @@ const checkoutButton = document.querySelector('.btn-block');
 checkoutButton.addEventListener('click', () => {
     // Redirect to payment.ejs with the total price as a query parameter
     window.location.href = `/payments?totalPrice=${totalPrice}&productCount=${productCount}`;
-  });
-
-// Initialize total price
-let totalPrice = 0;
-
-// Get total price element
-const totalPriceElement = document.querySelector('.total-price');
-
-buyButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        const product = button.parentElement.parentElement;
-        const productName = product.querySelector('.hiddenProductName').value;
-        const productDescription = parseFloat(product.querySelector('.hiddenProductDescription').value);
-        const productImage = product.querySelector('.product-image').getAttribute('src');
-
-        // Add product price to total price
-        totalPrice += productDescription;
-
-        // Update total price element
-        totalPriceElement.textContent = 'Total: $' + totalPrice.toFixed(2);
-
- 
-
-        cartItems.appendChild(cartItem);
-
-        const removeButtons = shoppingList.querySelectorAll('.remove-button');
-        removeButtons.forEach(removeButton => {
-            removeButton.addEventListener('click', () => {
-                // Subtract product price from total price
-                totalPrice -= productDescription;
-
-                // Update total price element
-                totalPriceElement.textContent = 'Total: $' + totalPrice.toFixed(2);
-
-                removeButton.parentElement.remove();
-            });
-        });
-    });
 });
 
 fetch('/payments', {

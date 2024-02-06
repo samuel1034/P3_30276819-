@@ -284,3 +284,7 @@ body{
     color: orange;
     font-size: 20px;
 }
+
+.stars {
+    margin-right: 10px; /* Adjust as needed */
+}

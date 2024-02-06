@@ -139,81 +139,125 @@
         </div>
         <!-- Navbar End -->
         
-     <section class="container my-5 pt-5">
-    <div class="row">
-        <div class="col-lg-6 col-md-12 col-12">
-            <!-- Product Image -->
-            <% if (product) { %>
-            <div class="card">
-                <img class="img-fluid w-50 h-50" src="/<%= product.image.slice(8) %>" alt="<%= product.nombre %>">
-            </div>
-        </div>
-        <% } %>
-        <div class="col-lg-6 col-md-12 col-12">
-            <!-- Product Details -->
-            <div class="card1">
-                <div class="card-body">
-                    <h2 class="product-title"><%= product.nombre %></h2>
-                    <p class="product-description"><%= product.descripcion %></p>
-                    <p class="product-price"><%= product.precio %> $</p>
-                    <% if (product.codigo) { %>
-                        <p class="product-code">Codigo: <%= product.codigo %></p>
-                    <% } %>
-                    <% if (product.categoria_id) { %>
-                        <p class="product-category-id">Categoria ID: <%= product.categoria_id %></p>
-                    <% } %>
-                    <% if (product.caracteristica1) { %>
-                        <p class="product-feature-1">Característica 1: <%= product.caracteristica1 %></p>
-                    <% } %>
-                    <% if (product.caracteristica2) { %>
-                        <p class="product-feature-2">Característica 2: <%= product.caracteristica2 %></p>
-                    <% } %>
-                   
-                    <div class="col-lg-6 col-md-12 col-12">
-                        <div class="card1">
-                          <div class="card-body">
-                            <h2 class="reviews-title">Reseñas</h2>
-                            <% calificaciones.forEach(function(calificacion) { %>
-                                <div class="review">
-                                  <p class="review-text text-dark">Reseña: <%= calificacion.review %></p>
-                                  <p class="review-rating text-dark">
-                                    Calificación: 
-                                    <% for(let i = 0; i < calificacion.calificacion; i++) { %>
+        <section class="container my-5 pt-5">
+            <div class="row">
+                <div class="col-lg-6 col-md-12 col-12">
+                    <!-- Product Image -->
+                    <% if (product) { %>
+                    <div class="card">
+                        <img class="img-fluid w-50 h-50" src="/<%= product.image.slice(8) %>" alt="<%= product.nombre %>">
+                    </div>
+                </div>
+                <% } %>
+                <div class="col-lg-6 col-md-12 col-12">
+                    <!-- Product Details -->
+                    <div class="card1">
+                        <div class="card-body">
+                            <h2 class="product-title"><%= product.nombre %></h2>
+                            <p class="average-rating text-dark fs-5">
+                                <span class="stars">
+                                    <% for(let i = 0; i < averageRating; i++) { %>
                                         <span class="fa fa-star"></span> <!-- This is a star character -->
                                     <% } %>
-                                  </p>
-                                  <p class="review-author text-dark">Nombre: <%= calificacion.client_name %></p>
+                                </span>
+                                <span class="rating-text">(<%= averageRating %> Estrellas Promedio)</span>
+                            </p>
+                            <p class="product-price"><%= product.precio %> $</p>
+                            <% if (product.codigo) { %>
+                                <p class="product-code">Codigo: <%= product.codigo %></p>
+                            <% } %>
+                            <% if (product.categoria_id) { %>
+                                <p class="product-category-id">Categoria ID: <%= product.categoria_id %></p>
+                            <% } %>
+                            <% if (product.caracteristica1) { %>
+                                <p class="product-feature-1">Característica 1: <%= product.caracteristica1 %></p>
+                            <% } %>
+                            <% if (product.caracteristica2) { %>
+                                <p class="product-feature-2">Característica 2: <%= product.caracteristica2 %></p>
+                            <% } %>
+                           
+                            <div class="col-lg-6 col-md-12 col-12">
+                                <div class="card1">
+                                    <div class="card-body">
+                                        <h2 class="reviews-title">Reseñas</h2>
+                                        <% calificaciones.forEach(function(calificacion) { %>
+                                            <div class="review">
+                                                <p class="review-text text-dark">Reseña: <%= calificacion.review %></p>
+                                                <p class="review-rating text-dark">
+                                                    Calificación: 
+                                                    <% for(let i = 0; i < calificacion.calificacion; i++) { %>
+                                                        <span class="fa fa-star"></span> <!-- This is a star character -->
+                                                    <% } %>
+                                                </p>
+                                                <p class="review-author text-dark">Nombre: <%= calificacion.client_name %></p>
+                                            </div>
+                                        <% }); %>
+                                        <div class="average-rating">                                            
+                                            <h3>Total de Reseñas: <%= totalReviews %></h3>
+                                        </div>
+                                    </div>
                                 </div>
-                              <% }); %>
-                        </div>
-                      </div>
-                    <!-- Buy Now Button -->
-                    <a href="http://localhost:3000/#our_products">
-                        <button class="btn btn-primary mt-3">
-                            <i class="fas fa-shopping-cart"></i> Comprar Ahora!
-                        </button>
-                    </a>
-
-                    <button type="button" class="btn btn-secondary mt-3" data-toggle="modal" data-target="#reviewModal">
-                        <i class="fas fa-plus"></i> Agrega una reseña
-                    </button>                  
-                </div>
-                
-            </div>
-        </div>
-    </div>
+                        <!-- Buy Now Button -->
+                        <a href="http://localhost:3000/#our_products">
+                            <button class="btn btn-primary mt-3">
+                                <i class="fas fa-shopping-cart"></i> Comprar Ahora!
+                            </button>
+                        </a>
+                    
+                        <button type="button" class="btn btn-secondary mt-3" data-toggle="modal" data-target="#reviewModal">
+                            <i class="fas fa-plus"></i> Agrega una reseña
+                        </button>                  
+                    </div>
     <a href="/" class="btn btn-primary mt-3">Regresar al Incio</a>
     
 </section>
 
 <% if (typeof email !== 'undefined' && !reviewExists) { %>
     <!-- Review Modal -->
-    <!-- Your existing code... -->
+    <div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title text-center w-100" id="reviewModalLabel">Agregar una Reseña</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+    
+      <!-- Review Form -->
+      <form id="reviewForm" method="POST" action="/product_detail/<%= codigo %>">
+        <!-- Star Rating -->
+        <div class="form-group">
+        <p class="text-dark text-end"> Calificación</p>
+            <div id="rating" class="rating">
+                <input type="radio" id="star5" name="rating" value="5" data-rating="5" data-selected="false" /><label for="star5" title="5 stars"><i class="fa fa-star"></i></label>
+                <input type="radio" id="star4" name="rating" value="4" data-rating="4" data-selected="false" /><label for="star4" title="4 stars"><i class="fa fa-star"></i></label>
+                <input type="radio" id="star3" name="rating" value="3" data-rating="3" data-selected="false" /><label for="star3" title="3 stars"><i class="fa fa-star"></i></label>
+                <input type="radio" id="star2" name="rating" value="2" data-rating="2" data-selected="false" /><label for="star2" title="2 stars"><i class="fa fa-star"></i></label>
+                <input type="radio" id="star1" name="rating" value="1" data-rating="1" data-selected="false" /><label for="star1" title="1 star"><i class="fa fa-star"></i></label>
+            </div>
+        </div>
+        <!-- Comment -->
+        <div class="form-group">
+            <label for="review" class="text-dark"> Reseña </label>
+            <textarea class="form-control text-dark" id="review" name="review" rows="3"></textarea>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar </button>
+            <button type="submit" class="btn btn-primary">Enviar Reseña </button>
+        </div>
+      </form>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
 <% } else if (reviewExists) { %>
     <div class="d-flex justify-content-center">
         <div class="alert alert-primary alert-dismissible fade show" role="alert">
             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-            Ya has escrito una reseña para este producto..
+            Ya has dejado una reseña para este producto..
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -230,7 +274,6 @@
         </div>
     </div>
 <% } %>
-
      <!-- Footer Start -->
      <div class="footer container-fluid position-relative bg-dark bg-light-radial text-white-50 py-6 px-5">
         <div class="row g-5">
@@ -370,6 +413,6 @@ $(document).ready(function() {
 });
     </script>
     <!-- Template Javascript -->    
-    <script src="script.js"></script>
+    <script src="/script.js"></script>
   </body>
 </html>

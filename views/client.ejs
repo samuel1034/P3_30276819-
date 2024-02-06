@@ -395,7 +395,15 @@
                         </div>
                         <div class="vi_right">
                             <p class="title"><%= product.nombre %></p>
-                            <p class="content"><%= product.precio %> $ </p>                            
+                            <p class="content"><%= product.precio %> $ </p>
+                            <p class="content">
+                                <span class="stars">
+                                    <% for(let i = 0; i < (ratings[product.codigo] || 0); i++) { %>
+                                        <span class="fa fa-star"></span> <!-- This is a star character -->
+                                    <% } %>
+                                </span>
+                                <span>(<%= ratings[product.codigo] || 'Aún no hay' %> Reseñas)</span>
+                            </p>
                             <a href="/product_detail/<%= product.codigo %>" class="btn">Ver más</a>
                         </div>
                     </div>
@@ -413,9 +421,17 @@
                         </div>
                         <div class="vi_right">
                             <p class="title"><%= product.nombre %></p>
-                            <p class="content"><%= product.precio %> $ </p>
-                            <div id="rateYo"></div>
-                            <span class="text-dark">Rating: 0</span>
+                            <p class="content"><%= product.precio %> $ </p>                            
+                            <div class="content">
+                                <div class="stars">
+                                    <% for(let i = 0; i < (ratings[product.codigo] || 0); i++) { %>
+                                        <span class="fa fa-star"></span> <!-- This is a star character -->
+                                    <% } %>
+                                </div>
+                                <div>
+                                    <span class="text-dark fs-5">(<%= ratings[product.codigo] || 'Aún no hay' %> Reseñas)</span>
+                                </div>
+                            </div>
                             <a href="/product_detail/<%= product.codigo %>" class="btn">Ver más</a>
                             <button class="buy-button">
                                 <img width="94" height="94" src="https://img.icons8.com/3d-fluency/94/shopping-cart.png" alt="shopping-cart"/>
@@ -428,8 +444,6 @@
                     </div>
                 <% }); %>
             </div>
-        </div>
-    </div>
     <div class="shopping-list">
         <h3>Lista de Compras </h3>       
         <ul class="cart-items"></ul>

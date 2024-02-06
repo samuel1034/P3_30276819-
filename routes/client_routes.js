@@ -17,25 +17,48 @@ router.use(session({
 }));
 
 router.get('/', function (req, res) {
-    let nombre = req.query.nombre;
-    let precio = req.query.precio;
-    let image = req.query.image;
+  let nombre = req.query.nombre;
+  let precio = req.query.precio;
+  let image = req.query.image;
 
-    db.all('SELECT * FROM productos', [], (err, rows) => {
-        if (err) {
-            console.log(err);
-            res.send("Error occurred while fetching products");
-        } else {
-            let filteredProducts = rows.filter(function(product) {
-                return (!nombre || product.nombre.includes(nombre)) &&
-                       (!precio || product.precio >= precio) &&
-                       (!image || product.image.includes(image));
-            });
-            
-            res.render('client', { products: filteredProducts });
-        }
-    });
+  db.all('SELECT * FROM productos', [], (err, products) => {
+      if (err) {
+          console.log(err);
+          res.send("Error occurred while fetching products");
+      } else {
+          let filteredProducts = products.filter(function(product) {
+              return (!nombre || product.nombre.includes(nombre)) &&
+                     (!precio || product.precio >= precio) &&
+                     (!image || product.image.includes(image));
+          });
+
+          // Fetch all ratings from the database
+          db.all('SELECT * FROM calificaciones', [], (err, ratings) => {
+              if (err) {
+                  console.log(err);
+                  res.send("Error occurred while fetching ratings");
+              } else {
+                  // Calculate the average rating for each product
+                  let averageRatings = {};
+                  for (let product of filteredProducts) {
+                      let productRatings = ratings.filter(rating => String(rating.producto_id) === String(product.codigo));
+                      let ratingSum = 0;
+                      for (let rating of productRatings) {
+                          if (typeof rating.calificacion === 'number') {
+                              ratingSum += rating.calificacion;
+                          }
+                      }
+                      averageRatings[product.codigo] = (productRatings.length > 0) ? Math.round(ratingSum / productRatings.length) : 0;
+                  }
+
+                  // Render the view, passing the products and the average ratings
+                  res.render('client', { products: filteredProducts, ratings: averageRatings });
+              }
+          });
+      }
+  });
 });
+
 router.get('/product_detail/:codigo', function(req, res) {
   const codigo = req.params.codigo;
   const cliente_email = req.session.email;
@@ -43,30 +66,30 @@ router.get('/product_detail/:codigo', function(req, res) {
   // Get the product details from the database
   db.get('SELECT * FROM productos WHERE codigo = ?', [codigo], function(err, product) {
     if (err) {
-      console.log('Error:', err.message); // Log the error message
       res.send("Error occurred while getting product details");
     } else {
       // Check if a review from the user for the product already exists
       db.get("SELECT * FROM calificaciones WHERE producto_id = ? AND cliente_id = ?", [codigo, cliente_email], function(err, row) {
         if (err) {
-          console.error(err.message);
           res.send("Error occurred while checking for existing review");
         } else {
           const reviewExists = !!row; // Convert row to boolean. If row exists, reviewExists will be true, otherwise false.
 
-          // Get the ratings from the database
-          db.all("SELECT * FROM calificaciones", [], (err, rows) => {
+          // Get the ratings for the current product from the database
+          db.all("SELECT * FROM calificaciones WHERE producto_id = ?", [codigo], (err, rows) => {
             if (err) {
-              console.error(err.message);
               res.send("Error occurred while getting ratings");
             } else {
               let ratingSum = 0;
               for (let i = 0; i < rows.length; i++) {
-                ratingSum += rows[i].rating;
+                if (typeof rows[i].calificacion === 'number') {
+                  ratingSum += rows[i].calificacion;
+                }
               }
-              let averageRating = (rows.length > 0) ? ratingSum / rows.length : 0;
-              // Render the product detail page, passing the product details, the user's email, the average rating, and reviewExists
-              res.render('product_detail', { email: req.session.email, product: product, averageRating: averageRating, calificaciones: rows, reviewExists: reviewExists });
+              let averageRating = (rows.length > 0) ? Math.round(ratingSum / rows.length) : 0;
+              let totalReviews = rows.length; // This is the total number of reviews
+              // Render the product detail page, passing the product details, the user's email, the average rating, totalReviews, and reviewExists
+              res.render('product_detail', { email: req.session.email, product: product, averageRating: averageRating, totalReviews: totalReviews, calificaciones: rows, reviewExists: reviewExists, codigo: codigo });
             }
           });
         }
@@ -74,7 +97,6 @@ router.get('/product_detail/:codigo', function(req, res) {
     }
   });
 });
-
 router.get('/about_client', function(req, res){
     res.render('about_client');
 });

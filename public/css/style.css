@@ -407,7 +407,7 @@ button {
 	color: #fff;
 	text-align: center;
 	font-weight: 200;
-	cursor: pointer;
+	cursor: pointer;    
 }
 
 .view_item .btn:hover{
@@ -506,6 +506,36 @@ button {
 .remove-button:hover {
     background-color: #c00;
 }
+
+.fa-star {
+    color: orange;
+    font-size: 20px;
+}
+
+span {
+    font-weight: bold;
+    color: #000;
+}
+
+.stars {
+    margin-bottom:5px; /* Adjust as needed */
+}
+
+.shopping-list {
+    background: #fff;
+}
+
+label.text-dark {
+    display: block;
+    margin-bottom: 10px;
+}
+.review {
+    margin-bottom: 20px;
+    padding: 1px;
+    border-bottom: none;
+}
+
+
 
 
 
