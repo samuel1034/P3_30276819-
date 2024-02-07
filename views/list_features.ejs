@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Categorias</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel='stylesheet' href='/stylesheets/listFeatures.css'/>    
+    <link rel="shortcut icon" href="https://img.icons8.com/ios-filled/100/list.png" type="image/x-icon">
+</head>
+<body>
+    <div class="centered-box">
+        <h1>Categorias</h1>
+        <ol>
+            <% features.forEach(function(feature) { %>
+                <li><%= feature.nombre %></li>
+            <% }); %>
+        </ol>
+
+        <a href="/index/home" class="btn btn-primary">Ir a la pagina de inicio </a>
+    </div>
+</body>
+</html>

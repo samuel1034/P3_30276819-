@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel='stylesheet' href='/stylesheets/productList.css'/>
+    <link rel="shortcut icon" href="https://img.icons8.com/papercut/60/overview-pages-3.png" type="image/x-icon">
+  <title>Lista de Productos </title>
+</head>
+<body>
+  <h1>Listado de Productos</h1>
+  <ul>
+    <% products.forEach(function(product) { %>
+      <li>
+        <h2><%= product.nombre %></h2>
+        <p>Código: <%= product.codigo %></p>
+        <p>Precio: <%= product.precio %></p>
+        <p>Descripción: <%= product.descripcion %></p>
+        <p>Categoría ID: <%= product.categoria_id %></p>
+        <p>Característica 1: <%= product.caracteristica1 %></p>
+        <p>Característica 2: <%= product.caracteristica2 %></p>
+        <img class="neon-image" src="/<%= product.image.slice(8) %>" alt="<%= product.nombre %>">
+        <form action="/index/product_list" method="POST">
+          <input type="hidden" name="nombre" value="<%= product.nombre %>">
+          <input type="hidden" name="codigo" value="<%= product.codigo %>">
+          <input type="hidden" name="precio" value="<%= product.precio %>">
+          <input type="hidden" name="descripcion" value="<%= product.descripcion %>">
+          <input type="hidden" name="categoria_id" value="<%= product.categoria_id %>">
+          <input type="hidden" name="caracteristica1" value="<%= product.caracteristica1 %>">
+          <input type="hidden" name="caracteristica2" value="<%= product.caracteristica2 %>">
+          <input type="hidden" name="image" value="<%= product.image %>">
+          <button class="remove-button" type="submit"> Eliminar</button>
+        </form>         
+      </li>
+    <% }); %>
+  </ul>
+</body>
+</html>
+
+
