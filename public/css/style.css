@@ -535,6 +535,10 @@ label.text-dark {
     border-bottom: none;
 }
 
+input::placeholder {
+    color: white;
+}
+
 
 
 

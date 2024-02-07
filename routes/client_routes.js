@@ -20,6 +20,7 @@ router.get('/', function (req, res) {
   let nombre = req.query.nombre;
   let precio = req.query.precio;
   let image = req.query.image;
+  let ordenar = req.query.ordenar;
 
   db.all('SELECT * FROM productos', [], (err, products) => {
       if (err) {
@@ -28,8 +29,8 @@ router.get('/', function (req, res) {
       } else {
           let filteredProducts = products.filter(function(product) {
               return (!nombre || product.nombre.includes(nombre)) &&
-                     (!precio || product.precio >= precio) &&
-                     (!image || product.image.includes(image));
+                  (!precio || product.precio >= precio) &&
+                  (!image || product.image.includes(image));
           });
 
           // Fetch all ratings from the database
@@ -38,8 +39,9 @@ router.get('/', function (req, res) {
                   console.log(err);
                   res.send("Error occurred while fetching ratings");
               } else {
-                  // Calculate the average rating for each product
+                  // Calculate the average rating and total reviews for each product
                   let averageRatings = {};
+                  let totalReviews = {};
                   for (let product of filteredProducts) {
                       let productRatings = ratings.filter(rating => String(rating.producto_id) === String(product.codigo));
                       let ratingSum = 0;
@@ -49,10 +51,17 @@ router.get('/', function (req, res) {
                           }
                       }
                       averageRatings[product.codigo] = (productRatings.length > 0) ? Math.round(ratingSum / productRatings.length) : 0;
+                      totalReviews[product.codigo] = productRatings.length;
                   }
 
-                  // Render the view, passing the products and the average ratings
-                  res.render('client', { products: filteredProducts, ratings: averageRatings });
+                  // If ordenar is defined and starts with 'calificacion', filter the products by the average rating
+                  if (ordenar && ordenar.startsWith('calificacion')) {
+                      let starRating = parseInt(ordenar.replace('calificacion', ''));
+                      filteredProducts = filteredProducts.filter(product => averageRatings[product.codigo] === starRating);
+                  }
+
+                  // Render the view, passing the products, the average ratings, and the total reviews
+                  res.render('client', { products: filteredProducts, ratings: averageRatings, totalReviews: totalReviews });
               }
           });
       }

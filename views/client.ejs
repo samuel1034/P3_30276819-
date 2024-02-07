@@ -372,6 +372,14 @@
             <input type="text" name="nombre" placeholder="Nombre">
             <input type="number" name="precio" placeholder="Precio">
             <input type="text" name="image" placeholder="Imagen">
+            <label for="ordenar" class="text-white">Ordenar por calificación:</label>
+            <select class="custom-select bg-dark text-white" name="ordenar" id="ordenar">
+                <option value="calificacion5">★★★★★ 5 estrellas</option>
+                <option value="calificacion4">★★★★☆ 4 estrellas</option>
+                <option value="calificacion3">★★★☆☆ 3 estrellas</option>
+                <option value="calificacion2">★★☆☆☆ 2 estrellas</option>
+                <option value="calificacion1">★☆☆☆☆ 1 estrella</option>
+            </select>
             <button type="submit">Filtrar</button>
         </form>
         <div class="links">
@@ -402,7 +410,7 @@
                                         <span class="fa fa-star"></span> <!-- This is a star character -->
                                     <% } %>
                                 </span>
-                                <span>(<%= ratings[product.codigo] || 'Aún no hay' %> Reseñas)</span>
+                                <span class="text-dark fs-5">(<%= totalReviews[product.codigo] %> Reseñas)</span>
                             </p>
                             <a href="/product_detail/<%= product.codigo %>" class="btn">Ver más</a>
                         </div>
@@ -429,7 +437,7 @@
                                     <% } %>
                                 </div>
                                 <div>
-                                    <span class="text-dark fs-5">(<%= ratings[product.codigo] || 'Aún no hay' %> Reseñas)</span>
+                                    <span class="text-dark fs-5">(<%= totalReviews[product.codigo] %> Reseñas)</span>
                                 </div>
                             </div>
                             <a href="/product_detail/<%= product.codigo %>" class="btn">Ver más</a>
