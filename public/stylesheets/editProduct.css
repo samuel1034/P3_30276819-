@@ -60,6 +60,11 @@ form textarea {
     border-radius: 10px;    
 }
 
+input::placeholder,
+textarea::placeholder {
+    color: white;
+}
+
 .contact-form textarea {
     resize: none;
     height: 200px;

@@ -507,4 +507,7 @@ button {
     background-color: #c00;
 }
 
+input::placeholder {
+    color: #fff;
+}
 
