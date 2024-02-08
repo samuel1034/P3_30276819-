@@ -122,7 +122,7 @@ router.post('/edit-feature/:id', (req, res) => {
           return;
       }
       console.log(`Row(s) updated: ${this.changes}`);
-      res.redirect('/list-features');;
+      res.redirect('/index/list-features');
   });
 });
 

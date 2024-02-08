@@ -11,8 +11,7 @@
 	<body>
 		
 		<div id="mySidenav" class="sidenav">
-			<p class="logo"><span>X</span>-Construction</p>
-			<a href="#" class="icon-a"><i class="fa fa-dashboard icons"></i>   Panel Administrativo </a>        
+			<p class="logo"><span>X</span>-Construction</p>			
 			<a href="/index/add_product" class="icon-a"><i class="fa fa-plus icons"></i>   Agregar Productos </a>
 			<a href="/index/edit_product" class="icon-a"><i class="fa fa-pencil-square icons"></i> Editar Producto </a>
 			<a href="/index/add_feature" class="icon-a"><i class="fa fa-plus icons"></i>   Agregar Categoría </a>
@@ -166,7 +165,7 @@
 	  event.preventDefault();
 	  const id = prompt("Introduzca el ID de la categoría que desea editar");
 	  if (id != null) {
-		window.location.href = `/edit-feature/${id}`;
+		window.location.href = `/index/edit-feature/${id}`;
 	  }
 	}
   </script>
